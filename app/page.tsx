@@ -10,21 +10,21 @@ export default function Home() {
   return (
     <main className="relative">
       <FloatingNav />
-      
+
       <section id="home">
         <HeroSection />
       </section>
-      
+
       <CountdownSection />
-      
+
       <FeaturesSection />
-      
+
       <SocialProofSection />
-      
+
       <IIDCreationSection />
-      
+
       <FinalCTASection />
-      
+
       {/* Footer */}
       <footer className="py-16 border-t border-white/10">
         <div className="container mx-auto px-4 text-center">
@@ -34,11 +34,11 @@ export default function Home() {
             </div>
             <span className="text-xl font-bold">IPNOTEC.VIP</span>
           </div>
-          
+
           <p className="text-white/60 mb-4">
             The future of digital identity awaits.
           </p>
-          
+
           <div className="text-sm text-white/40">
             © 2025 IPNOTEC.VIP. All rights reserved.
           </div>

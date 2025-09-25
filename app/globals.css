@@ -10,26 +10,26 @@
   --text-primary: #ffffff;
   --text-secondary: #a3a3a3;
   --text-muted: #666666;
-  
+
   /* Accent Colors */
   --neon-green: #00ff88;
   --neon-blue: #00d4ff;
   --neon-purple: #8b5cf6;
   --neon-pink: #ff0080;
   --neon-yellow: #ffff00;
-  
+
   /* Glass Colors */
   --glass-white: rgba(255, 255, 255, 0.05);
   --glass-white-hover: rgba(255, 255, 255, 0.1);
   --glass-white-active: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-border-hover: rgba(255, 255, 255, 0.2);
-  
+
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
   --gradient-secondary: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
   --gradient-radial: radial-gradient(circle at center, var(--neon-green) 0%, transparent 70%);
-  
+
   /* Shadows */
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-neon: 0 0 20px rgba(0, 255, 136, 0.3);
@@ -147,13 +147,22 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.1; transform: scale(1); }
-  50% { opacity: 0.2; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
 }
 
 /* Grid Pattern Background */
 .grid-bg {
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -166,8 +175,15 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Floating Animation */
@@ -176,8 +192,15 @@ body {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 /* Selection Styling */
