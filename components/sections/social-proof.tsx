@@ -53,7 +53,7 @@ export function SocialProofSection() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          <h2 className="text-4xl md:text-6xl font-heading font-bold mb-6">
             What <NeonText color="pink">Early Adopters</NeonText> Say
           </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
@@ -116,7 +116,7 @@ export function SocialProofSection() {
                   <div className="w-12 h-12 rounded-xl bg-white/10 mx-auto mb-4 flex items-center justify-center">
                     <Icon className="w-6 h-6 text-green-400" />
                   </div>
-                  <div className="text-2xl font-bold text-gradient mb-2">
+                  <div className="text-2xl font-heading font-bold text-gradient mb-2">
                     {stat.number}
                   </div>
                   <div className="text-sm text-white/60">

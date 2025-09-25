@@ -119,12 +119,12 @@ export function IIDCreationSection() {
                                         transition={{ duration: 0.6, delay: index * 0.1 }}
                                         viewport={{ once: true }}
                                         className={`flex items-start space-x-4 p-4 rounded-xl transition-all duration-300 ${isActive ? 'bg-white/10 border border-green-400/30' :
-                                                isCompleted ? 'bg-green-400/5' : 'bg-white/5'
+                                            isCompleted ? 'bg-green-400/5' : 'bg-white/5'
                                             }`}
                                     >
                                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-green-400 text-black' :
-                                                isCompleted ? 'bg-green-400/20 text-green-400' :
-                                                    'bg-white/10 text-white/50'
+                                            isCompleted ? 'bg-green-400/20 text-green-400' :
+                                                'bg-white/10 text-white/50'
                                             }`}>
                                             {isCompleted ? (
                                                 <Check className="w-6 h-6" />
@@ -135,7 +135,7 @@ export function IIDCreationSection() {
 
                                         <div>
                                             <h4 className={`font-semibold mb-1 ${isActive ? 'text-white' :
-                                                    isCompleted ? 'text-green-400' : 'text-white/70'
+                                                isCompleted ? 'text-green-400' : 'text-white/70'
                                                 }`}>
                                                 {step.title}
                                             </h4>

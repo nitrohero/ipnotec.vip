@@ -32,7 +32,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
               <span className="text-black font-bold text-sm">IP</span>
             </div>
-            <span className="text-xl font-bold">IPNOTEC.VIP</span>
+            <span className="text-xl font-heading font-bold">IPNOTEC.VIP</span>
           </div>
 
           <p className="text-white/60 mb-4">
