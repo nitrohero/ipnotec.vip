@@ -80,13 +80,13 @@ export function SocialProofSection() {
                     <div className="text-sm text-white/60">{testimonial.role}</div>
                   </div>
                 </div>
-                
+
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                
+
                 <Quote className="w-6 h-6 text-white/30 mb-2" />
                 <p className="text-white/80 italic">"{testimonial.content}"</p>
               </GlassCard>
