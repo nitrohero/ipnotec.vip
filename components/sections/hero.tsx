@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles, Zap } from 'lucide-react'
 
 export function HeroSection() {
     return (
-        <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
             {/* Animated Background */}
             <div className="absolute inset-0 animated-bg grid-bg" />
 
@@ -72,7 +72,7 @@ export function HeroSection() {
                         <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center">
                             <Zap className="w-6 h-6 text-black" />
                         </div>
-                        <span className="text-2xl font-bold">
+                        <span className="text-2xl font-bold font-heading">
                             <NeonText>IPNOTEC</NeonText>.VIP
                         </span>
                     </motion.div>
@@ -82,7 +82,7 @@ export function HeroSection() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.4 }}
-                        className="text-4xl md:text-6xl lg:text-8xl font-black leading-tight"
+                        className="text-4xl md:text-6xl lg:text-8xl font-black leading-tight font-heading"
                     >
                         Your <NeonText>Future</NeonText>
                         <br />
@@ -94,7 +94,7 @@ export function HeroSection() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.6 }}
-                        className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto leading-relaxed"
+                        className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto leading-relaxed font-body"
                     >
                         Join the exclusive <NeonText>FUTURE 11</NeonText> event on{' '}
                         <span className="font-semibold text-white">January 10, 2026</span>.
@@ -109,7 +109,7 @@ export function HeroSection() {
                         className="inline-flex items-center space-x-2 px-6 py-3 rounded-full glass border-green-400/30"
                     >
                         <Sparkles className="w-5 h-5 text-green-400" />
-                        <span className="text-sm font-medium">Early Access • Limited Spots</span>
+                        <span className="text-sm font-medium font-body">Early Access • Limited Spots</span>
                     </motion.div>
 
                     {/* CTA Buttons */}
@@ -121,13 +121,13 @@ export function HeroSection() {
                     >
                         <GlassButton size="lg" className="group">
                             <span className="flex items-center space-x-2">
-                                <span>Create Your I-ID</span>
+                                <span className="font-heading">Create Your I-ID</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </span>
                         </GlassButton>
 
                         <GlassButton variant="secondary" size="lg">
-                            Learn More
+                            <span className="font-heading">Learn More</span>
                         </GlassButton>
                     </motion.div>
 
@@ -150,10 +150,10 @@ export function HeroSection() {
                                 transition={{ duration: 0.4, delay: 1.4 + index * 0.1 }}
                                 className="text-center"
                             >
-                                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">
+                                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2 font-heading">
                                     {stat.number}
                                 </div>
-                                <div className="text-sm text-white/60">{stat.label}</div>
+                                <div className="text-sm text-white/60 font-body">{stat.label}</div>
                             </motion.div>
                         ))}
                     </motion.div>

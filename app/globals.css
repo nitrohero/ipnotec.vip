@@ -34,6 +34,9 @@
   --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-neon: 0 0 20px rgba(0, 255, 136, 0.3);
   --shadow-intense: 0 0 40px rgba(0, 255, 136, 0.5);
+
+  /* Fonts */
+  --font-heading: 'Doto', 'Orbitron', system-ui, sans-serif;
 }
 
 /* Tailwind Theme Variables */
@@ -51,9 +54,18 @@ html {
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* Font Utilities */
+.font-heading {
+  font-family: 'Doto', 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Custom Scrollbar */

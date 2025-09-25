@@ -86,7 +86,7 @@ export function IIDCreationSection() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                    <h2 className="text-4xl md:text-6xl font-heading font-bold mb-6">
                         Create Your <NeonText>I-ID</NeonText>
                     </h2>
                     <p className="text-xl text-white/70 max-w-3xl mx-auto">
@@ -104,7 +104,7 @@ export function IIDCreationSection() {
                             viewport={{ once: true }}
                             className="space-y-6"
                         >
-                            <h3 className="text-2xl font-bold mb-8">Registration Process</h3>
+                            <h3 className="text-2xl font-heading font-bold mb-8">Registration Process</h3>
 
                             {steps.map((step, index) => {
                                 const Icon = step.icon
@@ -180,7 +180,7 @@ export function IIDCreationSection() {
                                 {currentStep === 0 && (
                                     <div className="space-y-6">
                                         <div>
-                                            <h4 className="text-xl font-bold mb-4">Choose Your I-ID</h4>
+                                            <h4 className="text-xl font-heading font-bold mb-4">Choose Your I-ID</h4>
                                             <p className="text-white/60 text-sm mb-6">
                                                 Format: XXXX-XXXX (8 characters, letters and numbers only)
                                             </p>
@@ -240,7 +240,7 @@ export function IIDCreationSection() {
 
                                 {currentStep === 1 && (
                                     <div className="space-y-6">
-                                        <h4 className="text-xl font-bold mb-4">Verify Your Details</h4>
+                                        <h4 className="text-xl font-heading font-bold mb-4">Verify Your Details</h4>
 
                                         <div className="space-y-4">
                                             <GlassInput
@@ -274,7 +274,7 @@ export function IIDCreationSection() {
                                             <Zap className="w-10 h-10 text-black" />
                                         </div>
 
-                                        <h4 className="text-2xl font-bold">Secure Your Spot</h4>
+                                        <h4 className="text-2xl font-heading font-bold">Secure Your Spot</h4>
                                         <p className="text-white/60">
                                             Complete your registration with a one-time payment of <span className="font-bold text-white">₹1,001</span>
                                         </p>

@@ -39,7 +39,7 @@ export function FloatingNav() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? 'scale-95' : 'scale-100'
+                className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? 'scale-95 top-4' : 'scale-100 top-6'
                     }`}
             >
                 <div className="glass px-6 py-3 rounded-2xl border-white/20">
@@ -50,7 +50,7 @@ export function FloatingNav() {
                             <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
                                 <Zap className="w-4 h-4 text-black" />
                             </div>
-                            <span className="font-bold text-white">IPNOTEC.VIP</span>
+                            <span className="font-bold text-white font-heading">IPNOTEC.VIP</span>
                         </div>
 
                         {/* Nav Items */}
@@ -59,7 +59,7 @@ export function FloatingNav() {
                                 <button
                                     key={item.label}
                                     onClick={() => handleNavClick(item.href)}
-                                    className="text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium"
+                                    className="text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium font-body"
                                 >
                                     {item.label}
                                 </button>
@@ -78,7 +78,7 @@ export function FloatingNav() {
                             <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
                                 <Zap className="w-4 h-4 text-black" />
                             </div>
-                            <span className="font-bold text-white">IPNOTEC</span>
+                            <span className="font-bold text-white font-heading">IPNOTEC</span>
                         </div>
 
                         <button
@@ -99,7 +99,7 @@ export function FloatingNav() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed top-20 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-sm"
+                        className="fixed top-24 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-sm"
                     >
                         <div className="glass p-6 rounded-2xl border-white/20">
                             <div className="space-y-4">
@@ -115,7 +115,7 @@ export function FloatingNav() {
                                             className="w-full flex items-center space-x-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors duration-200"
                                         >
                                             <Icon className="w-5 h-5 text-white/70" />
-                                            <span className="text-white font-medium">{item.label}</span>
+                                            <span className="text-white font-medium font-body">{item.label}</span>
                                         </motion.button>
                                     )
                                 })}

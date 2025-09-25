@@ -8,7 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fontsource/doto": "^5.2.10",
+    "@fontsource/space-grotesk": "^5.2.10",
     "@hookform/resolvers": "^5.2.2",
+    "@next/font": "^14.2.15",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
     "lucide-react": "^0.544.0",

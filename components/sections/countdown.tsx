@@ -46,10 +46,10 @@ export function CountdownSection() {
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                    <h2 className="text-4xl md:text-6xl font-bold mb-6 font-heading">
                         The <NeonText color="purple">Future</NeonText> Awaits
                     </h2>
-                    <p className="text-xl text-white/70 max-w-3xl mx-auto">
+                    <p className="text-xl text-white/70 max-w-3xl mx-auto font-body">
                         FUTURE 11 launches in precisely...
                     </p>
                 </motion.div>
@@ -77,7 +77,7 @@ export function CountdownSection() {
                                         initial={{ scale: 1.2, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         transition={{ duration: 0.3 }}
-                                        className="text-3xl md:text-4xl font-bold text-gradient mb-2"
+                                        className="text-3xl md:text-4xl font-bold text-gradient mb-2 font-heading"
                                     >
                                         {isClient ? unit.value.toString().padStart(2, '0') : '00'}
                                     </motion.div>

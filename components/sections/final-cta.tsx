@@ -41,7 +41,7 @@ export function FinalCTASection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-7xl font-black leading-tight mb-8"
+                        className="text-4xl md:text-7xl font-heading font-black leading-tight mb-8"
                     >
                         Don't Miss Your
                         <br />
@@ -71,7 +71,7 @@ export function FinalCTASection() {
                         <div className="flex items-center justify-center space-x-3 p-4 rounded-xl bg-white/5 border border-white/10">
                             <Clock className="w-6 h-6 text-yellow-400" />
                             <div>
-                                <div className="font-bold text-yellow-400">Limited Time</div>
+                                <div className="font-heading font-bold text-yellow-400">Limited Time</div>
                                 <div className="text-sm text-white/60">Registration closes soon</div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@ export function FinalCTASection() {
                         <div className="flex items-center justify-center space-x-3 p-4 rounded-xl bg-white/5 border border-white/10">
                             <Users className="w-6 h-6 text-red-400" />
                             <div>
-                                <div className="font-bold text-red-400">Only 11 Spots</div>
+                                <div className="font-heading font-bold text-red-400">Only 11 Spots</div>
                                 <div className="text-sm text-white/60">Extremely exclusive</div>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ export function FinalCTASection() {
                         <div className="flex items-center justify-center space-x-3 p-4 rounded-xl bg-white/5 border border-white/10">
                             <Zap className="w-6 h-6 text-green-400" />
                             <div>
-                                <div className="font-bold text-green-400">Act Now</div>
+                                <div className="font-heading font-bold text-green-400">Act Now</div>
                                 <div className="text-sm text-white/60">Don't hesitate</div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@ export function FinalCTASection() {
                                 className="text-lg px-12 py-4 group shadow-2xl"
                             >
                                 <span className="flex items-center space-x-3">
-                                    <span>Secure My Spot for ₹1,001</span>
+                                    <span className="font-heading">Secure My Spot for ₹1,001</span>
                                     <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                                 </span>
                             </GlassButton>

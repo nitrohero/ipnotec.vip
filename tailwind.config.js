@@ -41,7 +41,9 @@ module.exports = {
                 }
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+                heading: ['Doto', 'Orbitron', 'system-ui', 'sans-serif'],
+                body: ['var(--font-body)', 'system-ui', 'sans-serif'],
+                sans: ['var(--font-body)', 'system-ui', 'sans-serif'],
             },
             animation: {
                 'float': 'float 6s ease-in-out infinite',

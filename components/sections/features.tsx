@@ -87,7 +87,7 @@ export function FeaturesSection() {
                         <span className="text-sm font-medium">Exclusive Features</span>
                     </motion.div>
 
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                    <h2 className="text-4xl md:text-6xl font-bold mb-6 font-heading">
                         Why Choose <NeonText color="purple">IPNOTEC</NeonText>?
                     </h2>
                     <p className="text-xl text-white/70 max-w-3xl mx-auto">
@@ -134,7 +134,7 @@ export function FeaturesSection() {
                 >
                     <GlassCard className="p-8 max-w-2xl mx-auto">
                         <div className="mb-6">
-                            <h3 className="text-2xl font-bold mb-2">
+                            <h3 className="text-2xl font-bold mb-2 font-heading">
                                 Ready to <NeonText>Join the Future</NeonText>?
                             </h3>
                             <p className="text-white/70">
@@ -144,21 +144,21 @@ export function FeaturesSection() {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <div className="text-center">
-                                <div className="text-3xl font-bold text-gradient mb-1">₹1,001</div>
+                                <div className="text-3xl font-heading font-bold text-gradient mb-1">₹1,001</div>
                                 <div className="text-sm text-white/60">One-time payment</div>
                             </div>
 
                             <div className="w-px h-12 bg-white/20 hidden sm:block" />
 
                             <div className="text-center">
-                                <div className="text-3xl font-bold text-gradient mb-1">11</div>
+                                <div className="text-3xl font-heading font-bold text-gradient mb-1">11</div>
                                 <div className="text-sm text-white/60">Exclusive spots</div>
                             </div>
 
                             <div className="w-px h-12 bg-white/20 hidden sm:block" />
 
                             <div className="text-center">
-                                <div className="text-3xl font-bold text-gradient mb-1">∞</div>
+                                <div className="text-3xl font-heading font-bold text-gradient mb-1">∞</div>
                                 <div className="text-sm text-white/60">Possibilities</div>
                             </div>
                         </div>
