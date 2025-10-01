@@ -42,19 +42,11 @@ export function FloatingNav() {
                 className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? 'scale-95 top-4' : 'scale-100 top-6'
                     }`}
             >
-                <div className="glass px-6 py-3 rounded-2xl border-white/20">
+                <div className="glass px-6 py-4 rounded-2xl border-white/20">
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
-                        {/* Logo */}
-                        <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                                <Zap className="w-4 h-4 text-black" />
-                            </div>
-                            <span className="font-bold text-white font-heading">IPNOTEC.VIP</span>
-                        </div>
-
+                    <div className="hidden md:flex items-center justify-between w-full">
                         {/* Nav Items */}
-                        <div className="flex items-center space-x-6">
+                        <div className="flex items-center space-x-8">
                             {navItems.map((item) => (
                                 <button
                                     key={item.label}
@@ -73,12 +65,9 @@ export function FloatingNav() {
                     </div>
 
                     {/* Mobile Navigation */}
-                    <div className="md:hidden flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                                <Zap className="w-4 h-4 text-black" />
-                            </div>
-                            <span className="font-bold text-white font-heading">IPNOTEC</span>
+                    <div className="md:hidden flex items-center justify-between w-full">
+                        <div className="flex items-center space-x-3">
+                            <span className="font-bold text-white font-heading text-lg">IPNOTEC.VIP</span>
                         </div>
 
                         <button
