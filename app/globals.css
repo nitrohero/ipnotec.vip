@@ -224,6 +224,44 @@ body {
   outline-offset: 2px;
 }
 
+/* PERFORMANCE OPTIMIZATION: Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* PERFORMANCE OPTIMIZATION: Mobile blur reduction */
+@media (max-width: 768px) {
+  .blur-3xl {
+    filter: blur(16px) !important;
+  }
+
+  .blur-2xl {
+    filter: blur(12px) !important;
+  }
+
+  /* Disable heavy animations on mobile */
+  .animated-bg::before {
+    animation: none;
+  }
+}
+
+/* PERFORMANCE OPTIMIZATION: GPU acceleration for common animated elements */
+.glass,
+.glass-button,
+.float {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
 /* Custom Utilities */
 .bg-gradient-primary {
   background: var(--gradient-primary);

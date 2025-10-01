@@ -18,7 +18,11 @@ export function ParticleBackground() {
     useEffect(() => {
         const createParticles = () => {
             const newParticles: Particle[] = []
-            for (let i = 0; i < 50; i++) {
+            // OPTIMIZED: Reduced from 50 to 20 particles (10 on mobile)
+            const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+            const count = isMobile ? 10 : 20
+
+            for (let i = 0; i < count; i++) {
                 newParticles.push({
                     id: i,
                     x: Math.random() * window.innerWidth,
@@ -53,7 +57,8 @@ export function ParticleBackground() {
             }))
         }
 
-        const interval = setInterval(animateParticles, 50)
+        // OPTIMIZED: Reduced update frequency from 50ms to 100ms
+        const interval = setInterval(animateParticles, 100)
         const resizeHandler = () => createParticles()
 
         window.addEventListener('resize', resizeHandler)

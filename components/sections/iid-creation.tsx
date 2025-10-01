@@ -32,6 +32,14 @@ export function IIDCreationSection() {
     const [countrySearch, setCountrySearch] = useState('')
     const [showCountryDropdown, setShowCountryDropdown] = useState(false)
     const countryDropdownRef = useRef<HTMLDivElement>(null)
+    
+    // City search and data
+    const [citySearch, setCitySearch] = useState('')
+    const [showCityDropdown, setShowCityDropdown] = useState(false)
+    const [citiesData, setCitiesData] = useState<Array<{ code: string; name: string }>>([])
+    const [isLoadingCities, setIsLoadingCities] = useState(true)
+    const cityDropdownRef = useRef<HTMLDivElement>(null)
+    const [displayedCitiesCount, setDisplayedCitiesCount] = useState(50) // Only render 50 cities initially
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -40,6 +48,10 @@ export function IIDCreationSection() {
                 setShowCountryDropdown(false)
                 setCountrySearch('')
             }
+            if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target as Node)) {
+                setShowCityDropdown(false)
+                setCitySearch('')
+            }
         }
 
         document.addEventListener('mousedown', handleClickOutside)
@@ -47,6 +59,58 @@ export function IIDCreationSection() {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    // Load cities data from JSON
+    useEffect(() => {
+        const loadCities = async () => {
+            try {
+                setIsLoadingCities(true)
+                // Fetch initial cities from API (server-side)
+                const response = await fetch('/api/cities?limit=100')
+                const data = await response.json()
+                
+                setCitiesData(data.results || [])
+            } catch (error) {
+                console.error('Error loading cities:', error)
+            } finally {
+                setIsLoadingCities(false)
+            }
+        }
+        
+        loadCities()
+    }, [])
+
+    // Fetch cities when search changes (debounced search)
+    useEffect(() => {
+        if (!showCityDropdown) return
+
+        const searchCities = async () => {
+            try {
+                setIsLoadingCities(true)
+                
+                // Build query parameters
+                const params = new URLSearchParams()
+                if (citySearch) {
+                    params.append('search', citySearch)
+                }
+                params.append('limit', '200') // Increased limit for better results
+                
+                const response = await fetch(`/api/cities?${params.toString()}`)
+                const data = await response.json()
+                setCitiesData(data.results || [])
+                setDisplayedCitiesCount(50) // Reset display count
+            } catch (error) {
+                console.error('Error searching cities:', error)
+                setCitiesData([])
+            } finally {
+                setIsLoadingCities(false)
+            }
+        }
+
+        // Debounce search
+        const timer = setTimeout(searchCities, 300)
+        return () => clearTimeout(timer)
+    }, [citySearch, showCityDropdown])
 
     const steps = [
         {
@@ -67,37 +131,16 @@ export function IIDCreationSection() {
     ]
 
     const futureTribeOptions = [
-        { value: 'VIP', label: 'VIP - Venture & Investment People', description: 'Investment and entrepreneurship focus' },
-        { value: 'IPI', label: 'IPI - IT & Industrialists', description: 'Technology and industrial innovation' },
-        { value: 'IPB', label: 'IPB - Branding & Marketing', description: 'Creative and marketing excellence' },
-        { value: 'IPG', label: 'IPG - Green & Environmental', description: 'Sustainability and eco-innovation' },
-        { value: 'IPY', label: 'IPY - Youth & Education', description: 'Learning and development focused' },
-        { value: 'IPO', label: 'IPO - Culture & Arts', description: 'Creative expression and cultural impact' },
-        { value: 'IPR', label: 'IPR - Real Estate & Recreation', description: 'Property and lifestyle ventures' },
-        { value: 'IPW', label: 'IPW - Wellness & Health', description: 'Health and wellness innovation' },
-        { value: 'IPGY', label: 'IPGY - Gaming & Youth', description: 'Gaming and youth culture' },
-        { value: 'IPBL', label: 'IPBL - Blockchain & Legal', description: 'Blockchain and legal tech' }
-    ]
-
-    const cityOptions = [
-        // Indian Cities
-        { value: 'BLR', label: 'BLR - Bangalore', country: 'India' },
-        { value: 'BOM', label: 'BOM - Mumbai', country: 'India' },
-        { value: 'DEL', label: 'DEL - Delhi', country: 'India' },
-        { value: 'HYD', label: 'HYD - Hyderabad', country: 'India' },
-        { value: 'MAA', label: 'MAA - Chennai', country: 'India' },
-        { value: 'PNQ', label: 'PNQ - Pune', country: 'India' },
-        { value: 'CCU', label: 'CCU - Kolkata', country: 'India' },
-        { value: 'GOI', label: 'GOI - Goa', country: 'India' },
-        // International Cities
-        { value: 'DXB', label: 'DXB - Dubai', country: 'UAE' },
-        { value: 'SFO', label: 'SFO - San Francisco', country: 'USA' },
-        { value: 'NYC', label: 'NYC - New York', country: 'USA' },
-        { value: 'LON', label: 'LON - London', country: 'UK' },
-        { value: 'SIN', label: 'SIN - Singapore', country: 'Singapore' },
-        { value: 'TOK', label: 'TOK - Tokyo', country: 'Japan' },
-        { value: 'SYD', label: 'SYD - Sydney', country: 'Australia' },
-        { value: 'BER', label: 'BER - Berlin', country: 'Germany' }
+        { value: 'VIP', label: 'VIP - Venture & Wealth', description: 'Investment and entrepreneurship focus', color: '#8F00F0' },
+        { value: 'IPI', label: 'IPI - IT & Industrialists', description: 'Technology and industrial innovation', color: '#0070B0' },
+        { value: 'IPB', label: 'IPB - Branding & Marketing', description: 'Creative and marketing excellence', color: '#00B0F0' },
+        { value: 'IPG', label: 'IPG - Green & Environmental', description: 'Sustainability and eco-innovation', color: '#45DE10' },
+        { value: 'IPY', label: 'IPY - Youth & Education', description: 'Learning and development focused', color: '#FFF000' },
+        { value: 'IPO', label: 'IPO - Culture & Arts', description: 'Creative expression and cultural impact', color: '#FF6900' },
+        { value: 'IPR', label: 'IPR - Real Estate & Recreation', description: 'Property and lifestyle ventures', color: '#FF000F' },
+        { value: 'IPW', label: 'IPW - Health & Policy', description: 'Health and wellness innovation', color: '#FFFFFF' },
+        { value: 'IPGY', label: 'IPGY - Nomads & Curious', description: 'Explorers and knowledge seekers', color: '#707070' },
+        { value: 'IPBL', label: 'IPBL - Black Noting', description: 'Exclusive and mysterious network', color: '#000000' }
     ]
 
     const personalityTypes = [
@@ -492,18 +535,18 @@ export function IIDCreationSection() {
             const prefix = nameComponents.prefixes[Math.floor(Math.random() * nameComponents.prefixes.length)]
             const middle = nameComponents.middles[Math.floor(Math.random() * nameComponents.middles.length)]
             const suffix = nameComponents.suffixes[Math.floor(Math.random() * nameComponents.suffixes.length)]
-            return `${prefix}_${middle}_${suffix}`
+            return `${prefix} ${middle} ${suffix}`
         } else if (strategy < 0.9) {
             // Strategy 2: Prefix + Suffix with number (20% - 2,050 combinations)
             const prefix = nameComponents.prefixes[Math.floor(Math.random() * nameComponents.prefixes.length)]
             const suffix = nameComponents.suffixes[Math.floor(Math.random() * nameComponents.suffixes.length)]
             const number = Math.floor(Math.random() * 999) + 1
-            return `${prefix}_${suffix}_${number}`
+            return `${prefix} ${suffix} ${number}`
         } else {
             // Strategy 3: Two middles (10% - 3,600 combinations)
             const middle1 = nameComponents.middles[Math.floor(Math.random() * nameComponents.middles.length)]
             const middle2 = nameComponents.middles[Math.floor(Math.random() * nameComponents.middles.length)]
-            return `${middle1}_${middle2}`
+            return `${middle1} ${middle2}`
         }
     }
 
@@ -518,8 +561,9 @@ export function IIDCreationSection() {
     }
 
     const generateRandomCity = () => {
-        const randomIndex = Math.floor(Math.random() * cityOptions.length)
-        return cityOptions[randomIndex].value
+        if (citiesData.length === 0) return ''
+        const randomIndex = Math.floor(Math.random() * citiesData.length)
+        return citiesData[randomIndex].code
     }
 
     const generateBiometricAlgorithm = (countryCode: string, phone: string, dob: string) => {
@@ -574,14 +618,24 @@ export function IIDCreationSection() {
     }
 
     const generateFinalID = () => {
-        // Clean callsign: allow A-Z a-z 0-9 _ - and strip spaces
-        const cleanCallsign = formData.callsign.replace(/[^A-Za-z0-9_-]/g, '')
+        // Convert spaces to underscores and clean callsign: allow A-Z a-z 0-9 _ -
+        const cleanCallsign = formData.callsign
+            .replace(/\s+/g, '_')  // Convert spaces to underscores
+            .replace(/[^A-Za-z0-9_-]/g, '')  // Remove any other special characters
+            .toUpperCase()  // Convert to uppercase
 
-        // Create Avatar ID: {tribe}.{city}.{callsign}
-        const avatarID = `${formData.futureTribe}.${formData.cityCode}.${cleanCallsign}`
+        // Create Avatar ID: {tribe}.{city}.{callsign} - All uppercase
+        const avatarID = `${formData.futureTribe}.${formData.cityCode}.${cleanCallsign}`.toUpperCase()
 
         setFormData({ ...formData, generatedID: avatarID })
     }
+
+    // Auto-generate final ID when reaching step 2 (Payment & Activation)
+    useEffect(() => {
+        if (currentStep === 2 && !formData.generatedID && formData.futureTribe && formData.cityCode && formData.callsign) {
+            generateFinalID()
+        }
+    }, [currentStep])
 
     const handleNext = () => {
         if (currentStep < steps.length - 1) {
@@ -597,10 +651,10 @@ export function IIDCreationSection() {
 
     return (
         <section id="iid" className="py-20 relative overflow-hidden">
-            {/* Background Effects */}
+            {/* Background Effects - OPTIMIZED: Reduced blur from blur-3xl to blur-2xl */}
             <div className="absolute inset-0">
-                <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-green-500/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
+                <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-green-500/10 rounded-full blur-2xl" />
+                <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl" />
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
@@ -614,8 +668,83 @@ export function IIDCreationSection() {
                 </div>
 
                 {/* Progress Steps - Top */}
-                <div className="max-w-4xl mx-auto mb-12">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12">
+                    {/* Mobile & Tablet - Enhanced Compact Horizontal Stepper */}
+                    <div className="md:hidden">
+                        <div className="relative px-4 sm:px-6">
+                            {/* Progress Line Background */}
+                            <div className="absolute top-5 left-0 right-0 h-0.5 bg-white/10 mx-[15%]" />
+                            
+                            {/* Active Progress Line */}
+                            <div 
+                                className="absolute top-5 left-0 h-0.5 bg-gradient-to-r from-green-400 to-green-500 mx-[15%] transition-all duration-500 ease-out"
+                                style={{ 
+                                    width: `${(currentStep / (steps.length - 1)) * 70}%`,
+                                }}
+                            />
+
+                            {/* Steps */}
+                            <div className="relative flex items-start justify-between">
+                                {steps.map((step, index) => {
+                                    const isActive = index === currentStep
+                                    const isCompleted = index < currentStep
+
+                                    return (
+                                        <div 
+                                            key={index} 
+                                            className="flex flex-col items-center"
+                                            style={{ zIndex: 10 }}
+                                        >
+                                            {/* Circle with animation */}
+                                            <div className={`relative w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${
+                                                isActive 
+                                                    ? 'bg-green-400 text-black shadow-lg shadow-green-400/50 scale-110' 
+                                                    : isCompleted 
+                                                    ? 'bg-green-400/30 text-green-400 border-2 border-green-400' 
+                                                    : 'bg-black/40 backdrop-blur-sm text-white/40 border-2 border-white/20'
+                                            }`}>
+                                                {isCompleted ? (
+                                                    <Check className="w-5 h-5 sm:w-5.5 sm:h-5.5 animate-in zoom-in duration-300" />
+                                                ) : (
+                                                    <span className={`text-sm sm:text-base font-bold ${isActive ? 'animate-pulse' : ''}`}>
+                                                        {index + 1}
+                                                    </span>
+                                                )}
+                                                
+                                                {/* Glow effect for active step */}
+                                                {isActive && (
+                                                    <div className="absolute inset-0 rounded-full bg-green-400/20 animate-ping" />
+                                                )}
+                                            </div>
+                                            
+                                            {/* Label */}
+                                            <div className="text-center max-w-[70px] sm:max-w-[80px]">
+                                                <p className={`text-xs sm:text-sm font-medium leading-tight transition-all duration-300 ${
+                                                    isActive 
+                                                        ? 'text-white font-semibold' 
+                                                        : isCompleted 
+                                                        ? 'text-green-400/90' 
+                                                        : 'text-white/40'
+                                                }`}>
+                                                    {step.title.split(' ')[0]}
+                                                </p>
+                                                
+                                                {/* Optional subtitle for active step */}
+                                                {isActive && (
+                                                    <p className="text-[10px] text-white/60 mt-0.5 hidden sm:block animate-in fade-in duration-300">
+                                                        {step.title.split(' ').slice(1).join(' ')}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Desktop - Full Cards */}
+                    <div className="hidden md:grid grid-cols-3 gap-6">
                         {steps.map((step, index) => {
                             const Icon = step.icon
                             const isActive = index === currentStep
@@ -655,38 +784,38 @@ export function IIDCreationSection() {
                 <div className="max-w-2xl mx-auto">
                     {/* Main Form */}
                     <div className="w-full">
-                        <GlassCard className="p-8">
+                        <GlassCard className="p-4 sm:p-6 md:p-8">
                             {currentStep === 0 && (
-                                <div className="space-y-6">
+                                <div className="space-y-5 sm:space-y-6">
                                     <div>
-                                        <h4 className="text-xl font-heading font-bold mb-4">Identity Authentication</h4>
-                                        <p className="text-white/60 text-sm mb-6">
+                                        <h4 className="text-lg sm:text-xl font-heading font-bold mb-3 sm:mb-4">Identity Authentication</h4>
+                                        <p className="text-white/60 text-sm mb-4 sm:mb-6">
                                             The system collects core personal data to create your unique digital fingerprint
                                         </p>
                                     </div>
 
-                                    <div className="space-y-4">
+                                    <div className="space-y-4 sm:space-y-5">
                                         {/* Country Code & Phone */}
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                                             <div className="space-y-2 relative" ref={countryDropdownRef}>
-                                                <label className="text-sm text-white/80">Country Code</label>
+                                                <label className="text-sm text-white/80 block">Country Code</label>
                                                 <div className="relative">
                                                     <div
                                                         onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                                                        className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white cursor-pointer flex items-center justify-between focus-within:border-green-400 focus-within:ring-2 focus-within:ring-green-400/20 transition-all backdrop-blur-sm"
+                                                        className="w-full px-3 sm:px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white cursor-pointer flex items-center justify-between focus-within:border-green-400 focus-within:ring-2 focus-within:ring-green-400/20 transition-all backdrop-blur-sm text-sm sm:text-base"
                                                     >
-                                                        <span>{formData.countryCode} ({countryCodeOptions.find(c => c.value === formData.countryCode)?.country})</span>
-                                                        <ChevronDown className={`w-4 h-4 transition-transform ${showCountryDropdown ? 'rotate-180' : ''}`} />
+                                                        <span className="truncate">{formData.countryCode}</span>
+                                                        <ChevronDown className={`w-4 h-4 flex-shrink-0 ml-2 transition-transform ${showCountryDropdown ? 'rotate-180' : ''}`} />
                                                     </div>
 
                                                     {showCountryDropdown && (
-                                                        <div className="absolute top-full left-0 right-0 mt-1 bg-black/90 backdrop-blur-lg border border-white/20 rounded-xl max-h-64 overflow-y-auto z-50">
-                                                            <div className="p-3 border-b border-white/10">
+                                                        <div className="absolute top-full left-0 right-0 mt-1 bg-black/95 backdrop-blur-lg border border-white/20 rounded-xl max-h-80 sm:max-h-96 overflow-hidden z-50 shadow-2xl">
+                                                            <div className="p-2 sm:p-3 border-b border-white/10 sticky top-0 bg-black/95 backdrop-blur-lg">
                                                                 <div className="relative">
-                                                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
+                                                                    <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/50" />
                                                                     <input
                                                                         type="text"
-                                                                        placeholder="Search country..."
+                                                                        placeholder="Search..."
                                                                         value={countrySearch}
                                                                         onChange={(e) => setCountrySearch(e.target.value)}
                                                                         onKeyDown={(e) => {
@@ -695,12 +824,12 @@ export function IIDCreationSection() {
                                                                                 setCountrySearch('')
                                                                             }
                                                                         }}
-                                                                        className="w-full pl-10 pr-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:border-green-400 focus:outline-none"
+                                                                        className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm placeholder-white/50 focus:border-green-400 focus:outline-none"
                                                                         autoFocus
                                                                     />
                                                                 </div>
                                                             </div>
-                                                            <div className="max-h-48 overflow-y-auto">
+                                                            <div className="max-h-60 sm:max-h-72 overflow-y-auto overscroll-contain">
                                                                 {countryCodeOptions
                                                                     .filter(option => {
                                                                         const searchLower = countrySearch.toLowerCase()
@@ -725,10 +854,10 @@ export function IIDCreationSection() {
                                                                                 setShowCountryDropdown(false)
                                                                                 setCountrySearch('')
                                                                             }}
-                                                                            className="px-4 py-2 hover:bg-white/10 cursor-pointer flex items-center justify-between"
+                                                                            className="px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-white/10 active:bg-white/15 cursor-pointer flex items-center justify-between touch-manipulation"
                                                                         >
-                                                                            <span className="text-white">{option.value}</span>
-                                                                            <span className="text-white/60 text-sm">{option.country}</span>
+                                                                            <span className="text-white text-sm sm:text-base">{option.value}</span>
+                                                                            <span className="text-white/60 text-xs sm:text-sm truncate ml-2">{option.country}</span>
                                                                         </div>
                                                                     ))
                                                                 }
@@ -738,7 +867,7 @@ export function IIDCreationSection() {
                                                                         option.value.toLowerCase().includes(searchLower) ||
                                                                         option.label.toLowerCase().includes(searchLower)
                                                                 }).length === 0 && countrySearch && (
-                                                                        <div className="px-4 py-3 text-white/50 text-center text-sm">
+                                                                        <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm">
                                                                             No countries found matching "{countrySearch}"
                                                                         </div>
                                                                     )}
@@ -747,7 +876,7 @@ export function IIDCreationSection() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className="md:col-span-2">
+                                            <div className="sm:col-span-2">
                                                 <GlassInput
                                                     label="Phone Number"
                                                     placeholder="Enter your phone number"
@@ -766,7 +895,7 @@ export function IIDCreationSection() {
                                             onChange={(value) => setFormData({ ...formData, email: value })}
                                         />
 
-                                        {/* Date of Birth */}
+                                        {/* Date of Birth - Prevents future dates */}
                                         <div className="space-y-2">
                                             <label className="text-sm text-white/80 flex items-center">
                                                 <Calendar className="w-4 h-4 mr-2" />
@@ -776,59 +905,68 @@ export function IIDCreationSection() {
                                                 <input
                                                     type="date"
                                                     value={formData.dateOfBirth}
-                                                    max="2025-09-25" // One day before current date
-                                                    onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                                                    className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:border-green-400 focus:ring-2 focus:ring-green-400/20 focus:outline-none transition-all backdrop-blur-sm [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert"
+                                                    max={(() => {
+                                                        const yesterday = new Date()
+                                                        yesterday.setDate(yesterday.getDate() - 1)
+                                                        return yesterday.toISOString().split('T')[0]
+                                                    })()}
+                                                    min="1900-01-01"
+                                                    onChange={(e) => {
+                                                        // Ensure the value is in yyyy-MM-dd format
+                                                        const value = e.target.value
+                                                        if (value) {
+                                                            setFormData({ ...formData, dateOfBirth: value })
+                                                        }
+                                                    }}
+                                                    className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:border-green-400 focus:ring-2 focus:ring-green-400/20 focus:outline-none transition-all backdrop-blur-sm [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                                    placeholder="YYYY-MM-DD"
                                                 />
                                                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
                                                     <Calendar className="w-4 h-4 text-white/50" />
                                                 </div>
                                             </div>
                                             <div className="text-xs text-white/60">
-                                                {formData.dateOfBirth ? (
+                                                {formData.dateOfBirth && (
                                                     <div className="flex items-center text-green-400">
                                                         <Check className="w-3 h-3 mr-1" />
-                                                        Valid date selected: {new Date(formData.dateOfBirth).toLocaleDateString('en-US', {
+                                                        Valid date selected: {new Date(formData.dateOfBirth + 'T00:00:00').toLocaleDateString('en-US', {
                                                             year: 'numeric',
                                                             month: 'long',
                                                             day: 'numeric'
                                                         })}
                                                     </div>
-                                                ) : (
-                                                    <div className="flex items-center">
-                                                        <Calendar className="w-3 h-3 mr-1" />
-                                                        Select your birth date (must be before September 26, 2025)
-                                                    </div>
                                                 )}
                                             </div>
                                         </div>
 
-                                        {/* Generate Virtual IP Button */}
-                                        <div className="pt-4">
-                                            <GlassButton
-                                                onClick={handleGenerateVirtualIP}
-                                                disabled={!formData.phone || !formData.email || !formData.dateOfBirth || isGenerating}
-                                                className="w-full"
-                                            >
-                                                {isGenerating ? (
-                                                    <>
-                                                        <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                                                        Processing Biometric Algorithm...
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <Zap className="w-4 h-4 mr-2" />
-                                                        Generate Virtual IP (I-D)
-                                                    </>
-                                                )}
-                                            </GlassButton>
-                                        </div>
+                                        {/* Generate Virtual IP Button - Only show if Virtual IP not generated */}
+                                        {!formData.virtualIP && (
+                                            <div className="pt-2 sm:pt-4">
+                                                <GlassButton
+                                                    onClick={handleGenerateVirtualIP}
+                                                    disabled={!formData.phone || !formData.email || !formData.dateOfBirth || isGenerating}
+                                                    className="w-full text-sm sm:text-base py-3 sm:py-4"
+                                                >
+                                                    {isGenerating ? (
+                                                        <>
+                                                            <RefreshCw className="w-4 h-4 mr-2 animate-spin flex-shrink-0" />
+                                                            <span className="truncate">Processing...</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Zap className="w-4 h-4 mr-2 flex-shrink-0" />
+                                                            <span className="truncate">Generate Virtual IP (I-D)</span>
+                                                        </>
+                                                    )}
+                                                </GlassButton>
+                                            </div>
+                                        )}
 
                                         {/* Generated Virtual IP Display */}
                                         {formData.virtualIP && (
-                                            <div className="p-4 rounded-xl bg-green-400/10 border border-green-400/30">
-                                                <div className="text-sm text-white/80 mb-2">Your Virtual IP (I-D):</div>
-                                                <div className="text-2xl font-heading font-bold text-green-400 mb-2">
+                                            <div className="p-4 sm:p-5 rounded-xl bg-green-400/10 border border-green-400/30">
+                                                <div className="text-xs sm:text-sm text-white/80 mb-2">Your Virtual IP (I-D):</div>
+                                                <div className="text-xl sm:text-2xl font-heading font-bold text-green-400 mb-2 break-all">
                                                     {formData.virtualIP}
                                                 </div>
                                                 <div className="flex items-center space-x-2">
@@ -845,35 +983,15 @@ export function IIDCreationSection() {
                             )}
 
                             {currentStep === 1 && (
-                                <div className="space-y-6">
+                                <div className="space-y-5 sm:space-y-6">
                                     <div>
-                                        <h4 className="text-xl font-heading font-bold mb-4">Avatar Forging</h4>
-                                        <p className="text-white/60 text-sm mb-6">
+                                        <h4 className="text-lg sm:text-xl font-heading font-bold mb-3 sm:mb-4">Avatar Forging</h4>
+                                        <p className="text-white/60 text-sm mb-4 sm:mb-6">
                                             Create your personalized digital persona for the IPNOTEC ecosystem
                                         </p>
                                     </div>
 
-                                    {/* Quick Fill All Button */}
-                                    <div className="text-center mb-6">
-                                        <GlassButton
-                                            variant="ghost"
-                                            onClick={() => setFormData({
-                                                ...formData,
-                                                purpose: generateRandomPurpose(),
-                                                goal: generateRandomGoal(),
-                                                callsign: generateRandomCallsign(),
-                                                personalityType: generateRandomPersonality(),
-                                                futureTribe: generateRandomTribe(),
-                                                cityCode: generateRandomCity()
-                                            })}
-                                            className="px-4 py-2"
-                                        >
-                                            <Sparkles className="w-4 h-4 mr-2" />
-                                            Fill All Random
-                                        </GlassButton>
-                                    </div>
-
-                                    <div className="space-y-4">
+                                    <div className="space-y-4 sm:space-y-5">
                                         {/* Purpose Selection */}
                                         <div className="space-y-2">
                                             <div className="flex items-center justify-between">
@@ -918,30 +1036,19 @@ export function IIDCreationSection() {
 
                                         {/* Personality Type Selection */}
                                         <div className="space-y-2">
-                                            <div className="flex items-center justify-between">
-                                                <label className="text-sm text-white/80">Personality Type</label>
-                                                <GlassButton
-                                                    size="sm"
-                                                    variant="ghost"
-                                                    onClick={() => setFormData({ ...formData, personalityType: generateRandomPersonality() })}
-                                                    className="text-xs px-2 py-1"
-                                                >
-                                                    <RefreshCw className="w-3 h-3 mr-1" />
-                                                    Random
-                                                </GlassButton>
-                                            </div>
-                                            <div className="grid grid-cols-1 gap-2">
+                                            <label className="text-sm text-white/80">Personality Type</label>
+                                            <div className="grid grid-cols-1 gap-2.5 sm:gap-3">
                                                 {personalityTypes.map((type) => (
                                                     <div
                                                         key={type.value}
                                                         onClick={() => setFormData({ ...formData, personalityType: type.value })}
-                                                        className={`p-3 rounded-lg border cursor-pointer transition-all ${formData.personalityType === type.value
+                                                        className={`p-3 sm:p-4 rounded-lg border cursor-pointer transition-all touch-manipulation ${formData.personalityType === type.value
                                                             ? 'border-green-400 bg-green-400/10'
-                                                            : 'border-white/20 bg-white/5 hover:border-white/40'
+                                                            : 'border-white/20 bg-white/5 hover:border-white/40 active:bg-white/10'
                                                             }`}
                                                     >
-                                                        <div className="font-medium text-white">{type.label}</div>
-                                                        <div className="text-xs text-white/60">{type.description}</div>
+                                                        <div className="font-medium text-white text-sm sm:text-base">{type.label}</div>
+                                                        <div className="text-xs text-white/60 mt-1">{type.description}</div>
                                                     </div>
                                                 ))}
                                             </div>
@@ -970,37 +1077,119 @@ export function IIDCreationSection() {
 
                                         {/* City Selection */}
                                         <div className="space-y-2">
-                                            <div className="flex items-center justify-between">
-                                                <label className="text-sm text-white/80">City Code</label>
-                                                <GlassButton
-                                                    size="sm"
-                                                    variant="ghost"
-                                                    onClick={() => setFormData({ ...formData, cityCode: generateRandomCity() })}
-                                                    className="text-xs px-2 py-1"
+                                            <label className="text-sm text-white/80">City Code</label>
+                                            <div className="relative" ref={cityDropdownRef}>
+                                                <div
+                                                    onClick={() => setShowCityDropdown(!showCityDropdown)}
+                                                    className="w-full px-3 sm:px-4 py-3 rounded-lg border border-white/20 bg-white/5 text-white cursor-pointer hover:border-white/40 transition-all backdrop-blur-sm touch-manipulation flex items-center justify-between"
                                                 >
-                                                    <RefreshCw className="w-3 h-3 mr-1" />
-                                                    Random
-                                                </GlassButton>
-                                            </div>
-                                            <div className="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto">
-                                                {cityOptions.map((city) => (
-                                                    <div
-                                                        key={city.value}
-                                                        onClick={() => setFormData({ ...formData, cityCode: city.value })}
-                                                        className={`p-3 rounded-lg border cursor-pointer transition-all ${formData.cityCode === city.value
-                                                            ? 'border-green-400 bg-green-400/10'
-                                                            : 'border-white/20 bg-white/5 hover:border-white/40'
-                                                            }`}
-                                                    >
-                                                        <div className="font-medium text-white flex items-center">
-                                                            <span className="bg-gradient-primary text-black px-2 py-1 rounded text-xs font-bold mr-2">
-                                                                {city.value}
+                                                    <div className="flex items-center gap-2">
+                                                        {formData.cityCode ? (
+                                                            <>
+                                                                <span className="bg-gradient-primary text-black px-2 py-1 rounded text-xs font-bold flex-shrink-0">
+                                                                    {formData.cityCode}
+                                                                </span>
+                                                                <span className="text-sm sm:text-base truncate">
+                                                                    {citiesData.find(c => c.code === formData.cityCode)?.name || 'Select city'}
+                                                                </span>
+                                                            </>
+                                                        ) : (
+                                                            <span className="text-white/50 text-sm sm:text-base">
+                                                                {isLoadingCities ? 'Loading cities...' : 'Select your city code'}
                                                             </span>
-                                                            {city.label}
-                                                        </div>
-                                                        <div className="text-xs text-white/60 mt-1">{city.country}</div>
+                                                        )}
                                                     </div>
-                                                ))}
+                                                    <ChevronDown className={`w-4 h-4 transition-transform ${showCityDropdown ? 'rotate-180' : ''}`} />
+                                                </div>
+
+                                                {showCityDropdown && (
+                                                    <div className="absolute z-50 w-full mt-2 rounded-lg border border-white/20 bg-black/90 backdrop-blur-md shadow-xl">
+                                                        <div className="p-3 border-b border-white/10">
+                                                            <div className="relative">
+                                                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Search by city name or code..."
+                                                                    value={citySearch}
+                                                                    onChange={(e) => {
+                                                                        setCitySearch(e.target.value)
+                                                                        setDisplayedCitiesCount(50) // Reset to 50 on new search
+                                                                    }}
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    className="w-full pl-10 pr-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-white/30 text-sm"
+                                                                    autoFocus
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div 
+                                                            className="max-h-60 sm:max-h-72 overflow-y-auto overscroll-contain"
+                                                            onScroll={(e) => {
+                                                                const target = e.target as HTMLDivElement
+                                                                const scrollPercentage = (target.scrollTop + target.clientHeight) / target.scrollHeight
+                                                                
+                                                                // Load more when scrolled 80% down
+                                                                if (scrollPercentage > 0.8 && displayedCitiesCount < citiesData.length) {
+                                                                    setDisplayedCitiesCount(prev => Math.min(prev + 50, citiesData.length))
+                                                                }
+                                                            }}
+                                                        >
+                                                            {/* Only render the displayed subset */}
+                                                            {citiesData.slice(0, displayedCitiesCount).map((city) => (
+                                                                <div
+                                                                    key={`${city.code}-${city.name}`}
+                                                                    onClick={() => {
+                                                                        setFormData({ ...formData, cityCode: city.code })
+                                                                        setShowCityDropdown(false)
+                                                                        setCitySearch('')
+                                                                        setDisplayedCitiesCount(50)
+                                                                    }}
+                                                                    className="px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-white/10 active:bg-white/15 cursor-pointer flex items-center gap-3 touch-manipulation"
+                                                                >
+                                                                    <span className="bg-gradient-primary text-black px-2 py-1 rounded text-xs font-bold flex-shrink-0">
+                                                                        {city.code}
+                                                                    </span>
+                                                                    <span className="text-white text-sm sm:text-base truncate">{city.name}</span>
+                                                                </div>
+                                                            ))}
+                                                            
+                                                            {/* Show loading indicator when more cities available */}
+                                                            {displayedCitiesCount < citiesData.length && !isLoadingCities && (
+                                                                <div className="px-3 sm:px-4 py-3 text-white/50 text-center text-xs">
+                                                                    Showing {displayedCitiesCount} of {citiesData.length} cities. Scroll for more...
+                                                                </div>
+                                                            )}
+                                                            
+                                                            {/* No results message */}
+                                                            {citiesData.length === 0 && citySearch && citySearch.length >= 2 && !isLoadingCities && (
+                                                                <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm">
+                                                                    No cities found matching "{citySearch}"
+                                                                </div>
+                                                            )}
+                                                            
+                                                            {/* Message for search less than 2 characters */}
+                                                            {citySearch && citySearch.length < 2 && !isLoadingCities && (
+                                                                <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm">
+                                                                    Type at least 2 characters to search
+                                                                </div>
+                                                            )}
+                                                            
+                                                            {/* Tip for no search */}
+                                                            {!citySearch && citiesData.length > 0 && !isLoadingCities && (
+                                                                <div className="px-3 sm:px-4 py-3 text-white/50 text-center text-xs">
+                                                                    💡 Type to search by city name or code (e.g., "Mumbai" or "BOM")
+                                                                </div>
+                                                            )}
+                                                            
+                                                            {/* Loading state */}
+                                                            {isLoadingCities && (
+                                                                <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm flex items-center justify-center gap-2">
+                                                                    <RefreshCw className="w-4 h-4 animate-spin" />
+                                                                    <span>Searching cities...</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
 
@@ -1018,23 +1207,31 @@ export function IIDCreationSection() {
                                                     Random
                                                 </GlassButton>
                                             </div>
-                                            <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                                            <div className="grid grid-cols-1 gap-2.5 sm:gap-3 max-h-72 sm:max-h-80 overflow-y-auto overscroll-contain rounded-lg border border-white/10 p-2">
                                                 {futureTribeOptions.map((tribe) => (
                                                     <div
                                                         key={tribe.value}
                                                         onClick={() => setFormData({ ...formData, futureTribe: tribe.value })}
-                                                        className={`p-3 rounded-lg border cursor-pointer transition-all ${formData.futureTribe === tribe.value
-                                                            ? 'border-green-400 bg-green-400/10'
-                                                            : 'border-white/20 bg-white/5 hover:border-white/40'
+                                                        className={`p-3 sm:p-4 rounded-lg cursor-pointer transition-all touch-manipulation ${formData.futureTribe === tribe.value
+                                                            ? 'bg-white/10 shadow-lg border-2'
+                                                            : 'bg-white/5 hover:bg-white/10 active:bg-white/15 border-2'
                                                             }`}
+                                                        style={{ 
+                                                            borderColor: tribe.color,
+                                                            borderStyle: formData.futureTribe === tribe.value ? 'dashed' : 'solid',
+                                                            borderWidth: '2px'
+                                                        }}
                                                     >
-                                                        <div className="font-medium text-white flex items-center">
-                                                            <span className="bg-gradient-primary text-black px-2 py-1 rounded text-xs font-bold mr-2">
+                                                        <div className="font-medium text-white flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
+                                                            <span 
+                                                                className="text-black px-2 py-1 rounded text-xs font-bold mr-0 sm:mr-2 mb-1 sm:mb-0 inline-block self-start"
+                                                                style={{ backgroundColor: tribe.color }}
+                                                            >
                                                                 {tribe.value}
                                                             </span>
-                                                            {tribe.label}
+                                                            <span className="break-words">{tribe.label}</span>
                                                         </div>
-                                                        <div className="text-xs text-white/60 mt-1">{tribe.description}</div>
+                                                        <div className="text-xs text-white/60 mt-1.5 sm:mt-1">{tribe.description}</div>
                                                     </div>
                                                 ))}
                                             </div>
@@ -1042,13 +1239,13 @@ export function IIDCreationSection() {
 
                                         {/* Avatar Summary */}
                                         {formData.callsign && formData.futureTribe && formData.cityCode && (
-                                            <div className="p-4 rounded-xl bg-blue-400/10 border border-blue-400/30">
-                                                <div className="text-sm text-white/80 mb-2">Avatar Preview:</div>
-                                                <div className="text-lg font-heading font-bold text-blue-400">
-                                                    {formData.futureTribe}.{formData.cityCode}.{formData.callsign.replace(/[^A-Za-z0-9_-]/g, '').replace(/_/g, ' ')}
+                                            <div className="p-4 sm:p-5 rounded-xl bg-blue-400/10 border border-blue-400/30">
+                                                <div className="text-xs sm:text-sm text-white/80 mb-2">Avatar Preview:</div>
+                                                <div className="text-base sm:text-lg font-heading font-bold text-blue-400 break-all uppercase">
+                                                    {formData.futureTribe}.{formData.cityCode}.{formData.callsign.replace(/\s+/g, '_')}
                                                 </div>
                                                 <div className="text-sm text-white/60 mt-1">
-                                                    {personalityTypes.find(t => t.value === formData.personalityType)?.label} Avatar from {cityOptions.find(c => c.value === formData.cityCode)?.label}
+                                                    {personalityTypes.find(t => t.value === formData.personalityType)?.label} Avatar from {citiesData.find(c => c.code === formData.cityCode)?.name}
                                                 </div>
                                             </div>
                                         )}
@@ -1057,37 +1254,24 @@ export function IIDCreationSection() {
                             )}
 
                             {currentStep === 2 && (
-                                <div className="space-y-6">
+                                <div className="space-y-5 sm:space-y-6">
                                     <div className="text-center">
-                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-primary flex items-center justify-center mb-6">
-                                            <CreditCard className="w-10 h-10 text-black" />
+                                        <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-gradient-primary flex items-center justify-center mb-4 sm:mb-6">
+                                            <CreditCard className="w-8 h-8 sm:w-10 sm:h-10 text-black" />
                                         </div>
 
-                                        <h4 className="text-2xl font-heading font-bold">Payment & Activation</h4>
-                                        <p className="text-white/60">
+                                        <h4 className="text-xl sm:text-2xl font-heading font-bold mb-2">Payment & Activation</h4>
+                                        <p className="text-white/60 text-sm sm:text-base">
                                             Unlock the full IPNOTEC ecosystem and activate your digital identity
                                         </p>
                                     </div>
 
-                                    {/* Generate Final ID if not already done */}
-                                    {!formData.generatedID && (
-                                        <div className="text-center">
-                                            <GlassButton
-                                                onClick={generateFinalID}
-                                                className="mb-6"
-                                            >
-                                                <Sparkles className="w-4 h-4 mr-2" />
-                                                Generate Final Unique ID
-                                            </GlassButton>
-                                        </div>
-                                    )}
-
-                                    {/* Display Generated Unique ID */}
+                                    {/* Display Generated Unique ID - Auto-generated from step 2 */}
                                     {formData.generatedID && (
-                                        <div className="p-6 rounded-xl bg-gradient-to-r from-green-400/10 to-blue-400/10 border border-green-400/30 text-center">
-                                            <div className="text-sm text-white/80 mb-2">Your Unique Digital Identity Code:</div>
-                                            <div className="text-3xl font-heading font-bold text-transparent bg-gradient-primary bg-clip-text mb-2">
-                                                {formData.generatedID.replace(/_/g, ' ')}
+                                        <div className="p-4 sm:p-6 rounded-xl bg-black/40 border border-white/20 text-center">
+                                            <div className="text-xs sm:text-sm text-white/80 mb-2">Your Unique Digital Identity Code:</div>
+                                            <div className="text-2xl sm:text-3xl font-heading font-bold text-white mb-2 break-all px-2 uppercase">
+                                                {formData.generatedID}
                                             </div>
                                             <div className="text-xs text-white/60">
                                                 This is your permanent key to the IPNOTEC ecosystem
@@ -1096,40 +1280,40 @@ export function IIDCreationSection() {
                                     )}
 
                                     {/* Registration Summary */}
-                                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                        <div className="text-base text-white/60 mb-3">Complete Registration Summary:</div>
-                                        <div className="space-y-2 text-base">
-                                            <div className="flex justify-between">
-                                                <span>Virtual IP (I-D):</span>
-                                                <span className="font-mono text-green-400">{formData.virtualIP}</span>
+                                    <div className="p-4 sm:p-5 rounded-xl bg-white/5 border border-white/10">
+                                        <div className="text-sm sm:text-base text-white/60 mb-3">Complete Registration Summary:</div>
+                                        <div className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
+                                            <div className="flex justify-between gap-2">
+                                                <span className="flex-shrink-0">Virtual IP (I-D):</span>
+                                                <span className="font-mono text-green-400 break-all text-right">{formData.virtualIP}</span>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <span>Avatar Callsign:</span>
-                                                <span className="text-blue-400">{formData.callsign.replace(/_/g, ' ')}</span>
+                                            <div className="flex justify-between gap-2">
+                                                <span className="flex-shrink-0">Avatar Callsign:</span>
+                                                <span className="text-blue-400 break-all text-right">{formData.callsign.replace(/_/g, ' ')}</span>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <span>Future Tribe:</span>
-                                                <span className="text-purple-400">
+                                            <div className="flex justify-between gap-2">
+                                                <span className="flex-shrink-0">Future Tribe:</span>
+                                                <span className="text-purple-400 break-words text-right">
                                                     {futureTribeOptions.find(t => t.value === formData.futureTribe)?.label || formData.futureTribe}
                                                 </span>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <span>City Code:</span>
-                                                <span className="text-cyan-400">
-                                                    {cityOptions.find(c => c.value === formData.cityCode)?.label || formData.cityCode}
+                                            <div className="flex justify-between gap-2">
+                                                <span className="flex-shrink-0">City Code:</span>
+                                                <span className="text-cyan-400 break-words text-right">
+                                                    {citiesData.find(c => c.code === formData.cityCode)?.name || formData.cityCode}
                                                 </span>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <span>Personality Type:</span>
-                                                <span>{formData.personalityType}</span>
+                                            <div className="flex justify-between gap-2">
+                                                <span className="flex-shrink-0">Personality Type:</span>
+                                                <span className="text-right">{formData.personalityType}</span>
                                             </div>
-                                            <div className="flex justify-between">
-                                                <span>Email:</span>
-                                                <span className="text-base">{formData.email}</span>
+                                            <div className="flex justify-between gap-2">
+                                                <span className="flex-shrink-0">Email:</span>
+                                                <span className="break-all text-right text-xs sm:text-sm">{formData.email}</span>
                                             </div>
-                                            <div className="border-t border-white/10 pt-2 mt-3">
-                                                <div className="flex justify-between font-bold text-lg">
-                                                    <span>IPNOTEC Ecosystem Access:</span>
+                                            <div className="border-t border-white/10 pt-2.5 sm:pt-3 mt-3">
+                                                <div className="flex justify-between font-bold text-base sm:text-lg gap-2">
+                                                    <span className="flex-shrink-0">IPNOTEC Access:</span>
                                                     <span className="text-green-400">₹1,001</span>
                                                 </div>
                                             </div>
@@ -1137,9 +1321,9 @@ export function IIDCreationSection() {
                                     </div>
 
                                     {/* What You Get */}
-                                    <div className="p-4 rounded-xl bg-gradient-to-r from-purple-400/10 to-pink-400/10 border border-purple-400/30">
-                                        <div className="text-base font-semibold text-white mb-3">🚀 What You Get:</div>
-                                        <div className="grid grid-cols-1 gap-2 text-base">
+                                    <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-purple-400/10 to-pink-400/10 border border-purple-400/30">
+                                        <div className="text-sm sm:text-base font-semibold text-white mb-3">🚀 What You Get:</div>
+                                        <div className="grid grid-cols-1 gap-2.5 sm:gap-3 text-xs sm:text-sm">
                                             <div className="flex items-center space-x-2">
                                                 <Check className="w-4 h-4 text-green-400" />
                                                 <span>Unique Digital DNA from personal data</span>
@@ -1166,33 +1350,44 @@ export function IIDCreationSection() {
                             )}
 
                             {/* Navigation Buttons */}
-                            <div className="flex justify-between pt-8">
+                            <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 pt-6 sm:pt-8">
                                 {currentStep > 0 && (
-                                    <GlassButton variant="ghost" onClick={handleBack}>
+                                    <GlassButton 
+                                        variant="ghost" 
+                                        onClick={handleBack}
+                                        className="w-full sm:w-auto order-2 sm:order-1"
+                                    >
                                         Back
                                     </GlassButton>
                                 )}
 
-                                <div className="ml-auto">
+                                <div className={`${currentStep > 0 ? 'order-1 sm:order-2 sm:ml-auto' : 'ml-auto'} w-full sm:w-auto`}>
                                     {currentStep < steps.length - 1 ? (
-                                        <GlassButton
-                                            onClick={handleNext}
-                                            disabled={
-                                                (currentStep === 0 && !formData.virtualIP) ||
-                                                (currentStep === 1 && (!formData.purpose || !formData.callsign || !formData.futureTribe || !formData.personalityType || !formData.cityCode))
-                                            }
-                                        >
-                                            {currentStep === 0 ? 'Proceed to Avatar Forging' : 'Proceed to Payment'}
-                                        </GlassButton>
+                                        <>
+                                            {/* Only show "Proceed to Avatar Forging" button if Virtual IP is generated on step 0 */}
+                                            {(currentStep === 0 && formData.virtualIP) || currentStep > 0 ? (
+                                                <GlassButton
+                                                    onClick={handleNext}
+                                                    disabled={
+                                                        (currentStep === 1 && (!formData.purpose || !formData.callsign || !formData.futureTribe || !formData.personalityType || !formData.cityCode))
+                                                    }
+                                                    className="w-full sm:w-auto text-sm sm:text-base"
+                                                >
+                                                    <span className="truncate">
+                                                        {currentStep === 0 ? 'Proceed to Avatar Forging' : 'Proceed to Payment'}
+                                                    </span>
+                                                </GlassButton>
+                                            ) : null}
+                                        </>
                                     ) : (
                                         <GlassButton
                                             size="lg"
-                                            className="px-8"
+                                            className="px-6 sm:px-8 w-full sm:w-auto text-sm sm:text-base"
                                             disabled={!formData.generatedID}
                                             onClick={() => setFormData({ ...formData, isActivated: true })}
                                         >
-                                            <CreditCard className="w-4 h-4 mr-2" />
-                                            Pay ₹1,001 & Activate Identity
+                                            <CreditCard className="w-4 h-4 mr-2 flex-shrink-0" />
+                                            <span className="truncate">Pay ₹1,001 & Activate</span>
                                         </GlassButton>
                                     )}
                                 </div>
@@ -1202,13 +1397,13 @@ export function IIDCreationSection() {
                 </div>
 
                 {/* Process Features - Bottom */}
-                <div className="max-w-4xl mx-auto mt-16">
-                    <div className="text-center mb-8">
-                        <h3 className="text-2xl font-heading font-bold mb-4">The Complete Process</h3>
-                        <p className="text-white/60">Advanced algorithms and personalized features for your digital identity</p>
+                <div className="max-w-4xl mx-auto mt-12 sm:mt-16">
+                    <div className="text-center mb-6 sm:mb-8">
+                        <h3 className="text-xl sm:text-2xl font-heading font-bold mb-3 sm:mb-4">The Complete Process</h3>
+                        <p className="text-white/60 text-sm sm:text-base px-4">Advanced algorithms and personalized features for your digital identity</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
                         {[
                             { icon: Zap, text: 'Biometric identity algorithm' },
                             { icon: User, text: 'Personalized avatar creation' },
@@ -1218,10 +1413,10 @@ export function IIDCreationSection() {
                         ].map((feature, index) => (
                             <div
                                 key={index}
-                                className="flex flex-col items-center text-center p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300"
+                                className="flex flex-col items-center text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300"
                             >
-                                <feature.icon className="w-8 h-8 text-green-400 mb-3" />
-                                <span className="text-sm text-white/70">{feature.text}</span>
+                                <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-green-400 mb-2 sm:mb-3 flex-shrink-0" />
+                                <span className="text-xs sm:text-sm text-white/70 leading-tight">{feature.text}</span>
                             </div>
                         ))}
                     </div>

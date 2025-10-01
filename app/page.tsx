@@ -1,10 +1,24 @@
+import dynamic from 'next/dynamic'
 import { FloatingNav } from '@/components/ui/floating-nav'
 import { HeroSection } from '@/components/sections/hero'
 import { CountdownSection } from '@/components/sections/countdown'
 import { FeaturesSection } from '@/components/sections/features'
-import { SocialProofSection } from '@/components/sections/social-proof'
-import { IIDCreationSection } from '@/components/sections/iid-creation'
-import { FinalCTASection } from '@/components/sections/final-cta'
+
+// OPTIMIZED: Lazy load below-the-fold components for better performance
+const SocialProofSection = dynamic(
+  () => import('@/components/sections/social-proof').then(mod => ({ default: mod.SocialProofSection })),
+  { loading: () => <div className="h-96" /> }
+)
+
+const IIDCreationSection = dynamic(
+  () => import('@/components/sections/iid-creation').then(mod => ({ default: mod.IIDCreationSection })),
+  { loading: () => <div className="h-screen flex items-center justify-center"><div className="text-white/60">Loading...</div></div> }
+)
+
+const FinalCTASection = dynamic(
+  () => import('@/components/sections/final-cta').then(mod => ({ default: mod.FinalCTASection })),
+  { loading: () => <div className="h-64" /> }
+)
 
 export default function Home() {
   return (
