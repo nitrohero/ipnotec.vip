@@ -32,7 +32,7 @@ export function IIDCreationSection() {
     const [countrySearch, setCountrySearch] = useState('')
     const [showCountryDropdown, setShowCountryDropdown] = useState(false)
     const countryDropdownRef = useRef<HTMLDivElement>(null)
-    
+
     // City search and data
     const [citySearch, setCitySearch] = useState('')
     const [showCityDropdown, setShowCityDropdown] = useState(false)
@@ -68,7 +68,7 @@ export function IIDCreationSection() {
                 // Fetch initial cities from API (server-side)
                 const response = await fetch('/api/cities?limit=100')
                 const data = await response.json()
-                
+
                 setCitiesData(data.results || [])
             } catch (error) {
                 console.error('Error loading cities:', error)
@@ -76,7 +76,7 @@ export function IIDCreationSection() {
                 setIsLoadingCities(false)
             }
         }
-        
+
         loadCities()
     }, [])
 
@@ -87,14 +87,14 @@ export function IIDCreationSection() {
         const searchCities = async () => {
             try {
                 setIsLoadingCities(true)
-                
+
                 // Build query parameters
                 const params = new URLSearchParams()
                 if (citySearch) {
                     params.append('search', citySearch)
                 }
                 params.append('limit', '200') // Increased limit for better results
-                
+
                 const response = await fetch(`/api/cities?${params.toString()}`)
                 const data = await response.json()
                 setCitiesData(data.results || [])
@@ -674,11 +674,11 @@ export function IIDCreationSection() {
                         <div className="relative px-4 sm:px-6">
                             {/* Progress Line Background */}
                             <div className="absolute top-5 left-0 right-0 h-0.5 bg-white/10 mx-[15%]" />
-                            
+
                             {/* Active Progress Line */}
-                            <div 
+                            <div
                                 className="absolute top-5 left-0 h-0.5 bg-gradient-to-r from-green-400 to-green-500 mx-[15%] transition-all duration-500 ease-out"
-                                style={{ 
+                                style={{
                                     width: `${(currentStep / (steps.length - 1)) * 70}%`,
                                 }}
                             />
@@ -690,19 +690,18 @@ export function IIDCreationSection() {
                                     const isCompleted = index < currentStep
 
                                     return (
-                                        <div 
-                                            key={index} 
+                                        <div
+                                            key={index}
                                             className="flex flex-col items-center"
                                             style={{ zIndex: 10 }}
                                         >
                                             {/* Circle with animation */}
-                                            <div className={`relative w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${
-                                                isActive 
-                                                    ? 'bg-green-400 text-black shadow-lg shadow-green-400/50 scale-110' 
-                                                    : isCompleted 
-                                                    ? 'bg-green-400/30 text-green-400 border-2 border-green-400' 
-                                                    : 'bg-black/40 backdrop-blur-sm text-white/40 border-2 border-white/20'
-                                            }`}>
+                                            <div className={`relative w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${isActive
+                                                    ? 'bg-green-400 text-black shadow-lg shadow-green-400/50 scale-110'
+                                                    : isCompleted
+                                                        ? 'bg-green-400/30 text-green-400 border-2 border-green-400'
+                                                        : 'bg-black/40 backdrop-blur-sm text-white/40 border-2 border-white/20'
+                                                }`}>
                                                 {isCompleted ? (
                                                     <Check className="w-5 h-5 sm:w-5.5 sm:h-5.5 animate-in zoom-in duration-300" />
                                                 ) : (
@@ -710,25 +709,24 @@ export function IIDCreationSection() {
                                                         {index + 1}
                                                     </span>
                                                 )}
-                                                
+
                                                 {/* Glow effect for active step */}
                                                 {isActive && (
                                                     <div className="absolute inset-0 rounded-full bg-green-400/20 animate-ping" />
                                                 )}
                                             </div>
-                                            
+
                                             {/* Label */}
                                             <div className="text-center max-w-[70px] sm:max-w-[80px]">
-                                                <p className={`text-xs sm:text-sm font-medium leading-tight transition-all duration-300 ${
-                                                    isActive 
-                                                        ? 'text-white font-semibold' 
-                                                        : isCompleted 
-                                                        ? 'text-green-400/90' 
-                                                        : 'text-white/40'
-                                                }`}>
+                                                <p className={`text-xs sm:text-sm font-medium leading-tight transition-all duration-300 ${isActive
+                                                        ? 'text-white font-semibold'
+                                                        : isCompleted
+                                                            ? 'text-green-400/90'
+                                                            : 'text-white/40'
+                                                    }`}>
                                                     {step.title.split(' ')[0]}
                                                 </p>
-                                                
+
                                                 {/* Optional subtitle for active step */}
                                                 {isActive && (
                                                     <p className="text-[10px] text-white/60 mt-0.5 hidden sm:block animate-in fade-in duration-300">
@@ -1121,12 +1119,12 @@ export function IIDCreationSection() {
                                                                 />
                                                             </div>
                                                         </div>
-                                                        <div 
+                                                        <div
                                                             className="max-h-60 sm:max-h-72 overflow-y-auto overscroll-contain"
                                                             onScroll={(e) => {
                                                                 const target = e.target as HTMLDivElement
                                                                 const scrollPercentage = (target.scrollTop + target.clientHeight) / target.scrollHeight
-                                                                
+
                                                                 // Load more when scrolled 80% down
                                                                 if (scrollPercentage > 0.8 && displayedCitiesCount < citiesData.length) {
                                                                     setDisplayedCitiesCount(prev => Math.min(prev + 50, citiesData.length))
@@ -1151,35 +1149,35 @@ export function IIDCreationSection() {
                                                                     <span className="text-white text-sm sm:text-base truncate">{city.name}</span>
                                                                 </div>
                                                             ))}
-                                                            
+
                                                             {/* Show loading indicator when more cities available */}
                                                             {displayedCitiesCount < citiesData.length && !isLoadingCities && (
                                                                 <div className="px-3 sm:px-4 py-3 text-white/50 text-center text-xs">
                                                                     Showing {displayedCitiesCount} of {citiesData.length} cities. Scroll for more...
                                                                 </div>
                                                             )}
-                                                            
+
                                                             {/* No results message */}
                                                             {citiesData.length === 0 && citySearch && citySearch.length >= 2 && !isLoadingCities && (
                                                                 <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm">
                                                                     No cities found matching "{citySearch}"
                                                                 </div>
                                                             )}
-                                                            
+
                                                             {/* Message for search less than 2 characters */}
                                                             {citySearch && citySearch.length < 2 && !isLoadingCities && (
                                                                 <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm">
                                                                     Type at least 2 characters to search
                                                                 </div>
                                                             )}
-                                                            
+
                                                             {/* Tip for no search */}
                                                             {!citySearch && citiesData.length > 0 && !isLoadingCities && (
                                                                 <div className="px-3 sm:px-4 py-3 text-white/50 text-center text-xs">
                                                                     💡 Type to search by city name or code (e.g., "Mumbai" or "BOM")
                                                                 </div>
                                                             )}
-                                                            
+
                                                             {/* Loading state */}
                                                             {isLoadingCities && (
                                                                 <div className="px-3 sm:px-4 py-4 text-white/50 text-center text-xs sm:text-sm flex items-center justify-center gap-2">
@@ -1216,14 +1214,14 @@ export function IIDCreationSection() {
                                                             ? 'bg-white/10 shadow-lg border-2'
                                                             : 'bg-white/5 hover:bg-white/10 active:bg-white/15 border-2'
                                                             }`}
-                                                        style={{ 
+                                                        style={{
                                                             borderColor: tribe.color,
                                                             borderStyle: formData.futureTribe === tribe.value ? 'dashed' : 'solid',
                                                             borderWidth: '2px'
                                                         }}
                                                     >
                                                         <div className="font-medium text-white flex flex-col sm:flex-row sm:items-center text-sm sm:text-base">
-                                                            <span 
+                                                            <span
                                                                 className="text-black px-2 py-1 rounded text-xs font-bold mr-0 sm:mr-2 mb-1 sm:mb-0 inline-block self-start"
                                                                 style={{ backgroundColor: tribe.color }}
                                                             >
@@ -1352,8 +1350,8 @@ export function IIDCreationSection() {
                             {/* Navigation Buttons */}
                             <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 pt-6 sm:pt-8">
                                 {currentStep > 0 && (
-                                    <GlassButton 
-                                        variant="ghost" 
+                                    <GlassButton
+                                        variant="ghost"
                                         onClick={handleBack}
                                         className="w-full sm:w-auto order-2 sm:order-1"
                                     >

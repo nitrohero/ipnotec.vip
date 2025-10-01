@@ -32,10 +32,10 @@ export async function GET(request: NextRequest) {
 
             // Sort with priority for matches at start
             filtered.sort((a: any, b: any) => {
-                const aStartsWith = a.name.toLowerCase().startsWith(searchLower) || 
-                                   a.code.toLowerCase().startsWith(searchLower)
-                const bStartsWith = b.name.toLowerCase().startsWith(searchLower) || 
-                                   b.code.toLowerCase().startsWith(searchLower)
+                const aStartsWith = a.name.toLowerCase().startsWith(searchLower) ||
+                    a.code.toLowerCase().startsWith(searchLower)
+                const bStartsWith = b.name.toLowerCase().startsWith(searchLower) ||
+                    b.code.toLowerCase().startsWith(searchLower)
                 if (aStartsWith && !bStartsWith) return -1
                 if (!aStartsWith && bStartsWith) return 1
                 return a.name.localeCompare(b.name)
