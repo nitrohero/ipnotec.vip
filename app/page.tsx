@@ -8,22 +8,26 @@ import { FinalCTASection } from '@/components/sections/final-cta'
 
 export default function Home() {
   return (
-    <main className="relative">
+    <main>
       <FloatingNav />
 
       <section id="home">
         <HeroSection />
       </section>
 
-      <CountdownSection />
-
-      <FeaturesSection />
+      <section id="features">
+        <FeaturesSection />
+      </section>
 
       <SocialProofSection />
 
-      <IIDCreationSection />
+      <CountdownSection />
 
       <FinalCTASection />
+
+      <section id="iid">
+        <IIDCreationSection />
+      </section>
 
       {/* Footer */}
       <footer className="py-16 border-t border-white/10">
@@ -40,7 +44,7 @@ export default function Home() {
           </p>
 
           <div className="text-sm text-white/40">
-            © 2025 IPNOTEC.VIP. All rights reserved.
+            © 2025 IPNOTEC. All rights reserved.
           </div>
         </div>
       </footer>

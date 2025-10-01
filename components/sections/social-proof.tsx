@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { GlassCard, NeonText } from '@/components/ui/glass'
-import { Quote, Star, User, CheckCircle, TrendingUp } from 'lucide-react'
+import { Quote, Star, Users, CheckCircle, Zap, Shield, DollarSign } from 'lucide-react'
 
 export function SocialProofSection() {
   const testimonials = [
@@ -30,10 +30,10 @@ export function SocialProofSection() {
   ]
 
   const stats = [
-    { number: '98%', label: 'Satisfaction Rate', icon: Star },
-    { number: '2.3s', label: 'Avg Load Time', icon: TrendingUp },
-    { number: '100%', label: 'Secure Identity', icon: CheckCircle },
-    { number: '24/7', label: 'Support Available', icon: User }
+    { number: '11', label: 'Exclusive Spots', icon: Users },
+    { number: '<1s', label: 'Setup Time', icon: Zap },
+    { number: '256-bit', label: 'Encryption', icon: Shield },
+    { number: '₹1,001', label: 'One-Time Fee', icon: DollarSign }
   ]
 
   return (
@@ -93,68 +93,6 @@ export function SocialProofSection() {
             </motion.div>
           ))}
         </div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto"
-        >
-          {stats.map((stat, index) => {
-            const Icon = stat.icon
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <GlassCard className="p-6 text-center">
-                  <div className="w-12 h-12 rounded-xl bg-white/10 mx-auto mb-4 flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div className="text-2xl font-heading font-bold text-gradient mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-white/60">
-                    {stat.label}
-                  </div>
-                </GlassCard>
-              </motion.div>
-            )
-          })}
-        </motion.div>
-
-        {/* Trust Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <div className="flex flex-wrap items-center justify-center gap-8 opacity-60">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-sm">SSL Secured</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-sm">GDPR Compliant</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-sm">256-bit Encryption</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-              <span className="text-sm">Money-back Guarantee</span>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )

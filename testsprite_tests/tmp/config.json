@@ -1,0 +1,16 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000",
+  "executionArgs": {
+    "projectName": "ipnotec.vip",
+    "projectPath": "d:\\Girish\\Documents\\projects\\clinets\\ipnotec.vip",
+    "testIds": [],
+    "additionalInstruction": "Focus on performance testing including: page load times, animation performance, image optimization, bundle size analysis, Core Web Vitals (LCP, FID, CLS), JavaScript execution time, render blocking resources, and mobile performance. Test all sections and identify loading bottlenecks.",
+    "envs": {
+      "API_KEY": "sk-user-qbFp_ULR6h6Lp9PFTrMjUMVyGtIhHKES1_4F7wep794QkmJUf6PQ2_tFnpdSsHVTDCVlQhkntBwgE07gwBtWJahE65vHvArVSdpUMFAkJ6WknamQsuOwFp3RE4IcLunAKPY"
+    }
+  },
+  "proxy": "http://5a21414d-d510-4f83-9021-d07955658794:T7ETJ1gJfeoSyU1E151FSQBFWWIA4iZy@tun.testsprite.com:8080"
+}

@@ -47,10 +47,10 @@ export function CountdownSection() {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-6xl font-bold mb-6 font-heading">
-                        The <NeonText color="purple">Future</NeonText> Awaits
+                        The <NeonText color="purple">App Launch</NeonText> Countdown
                     </h2>
                     <p className="text-xl text-white/70 max-w-3xl mx-auto font-body">
-                        FUTURE 11 launches in precisely...
+                        FUTURE 11 app goes live in precisely...
                     </p>
                 </motion.div>
 
@@ -101,25 +101,25 @@ export function CountdownSection() {
                     <GlassCard className="p-8 text-center">
                         <div className="mb-6">
                             <h3 className="text-2xl font-bold mb-2">
-                                <NeonText>FUTURE 11</NeonText> Event
+                                <NeonText>FUTURE 11</NeonText> App Launch
                             </h3>
                             <p className="text-white/70">
-                                January 10, 2026 • Exclusive Digital Experience
+                                January 10, 2026 • All Seat Holders Get Access
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
                             <div>
-                                <div className="font-semibold text-green-400 mb-1">Limited Access</div>
-                                <div className="text-white/60">Only 11 exclusive spots available</div>
+                                <div className="font-semibold text-green-400 mb-1">1,001 Seats Total</div>
+                                <div className="text-white/60">Secure your seat now</div>
                             </div>
                             <div>
-                                <div className="font-semibold text-blue-400 mb-1">Digital Identity</div>
-                                <div className="text-white/60">Create your unique I-ID</div>
+                                <div className="font-semibold text-blue-400 mb-1">Multiple Avatars</div>
+                                <div className="text-white/60">Create diverse digital identities</div>
                             </div>
                             <div>
-                                <div className="font-semibold text-purple-400 mb-1">Future Tech</div>
-                                <div className="text-white/60">Experience tomorrow today</div>
+                                <div className="font-semibold text-purple-400 mb-1">Full Access</div>
+                                <div className="text-white/60">Unlock all features on launch</div>
                             </div>
                         </div>
                     </GlassCard>
@@ -136,7 +136,7 @@ export function CountdownSection() {
                     <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-red-500/10 border border-red-500/20">
                         <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
                         <span className="text-sm font-medium text-red-400">
-                            Registration closes when countdown reaches zero
+                            Seats filling fast • App launches when countdown ends
                         </span>
                     </div>
                 </motion.div>

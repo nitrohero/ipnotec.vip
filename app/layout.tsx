@@ -11,14 +11,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "IPNOTEC.VIP - Your Future Starts Here | FUTURE 11 Event",
-  description: "Join the exclusive FUTURE 11 event on January 10, 2026. Create your unique I-ID and experience the future of digital identity. Limited to 11 spots only.",
-  keywords: "digital identity, I-ID, future tech, exclusive event, IPNOTEC, avatar creation",
+  title: "IPNOTEC.VIP - Your Future Starts Here | FUTURE 11 App Launch",
+  description: "Secure your seat for the FUTURE 11 app launch on January 10, 2026. Create your unique I-ID with multiple avatar representations. Limited to 1,001 seats only.",
+  keywords: "digital identity, I-ID, future tech, FUTURE 11, IPNOTEC, avatar creation, multiple avatars",
   authors: [{ name: "IPNOTEC.VIP" }],
   creator: "IPNOTEC.VIP",
   openGraph: {
     title: "IPNOTEC.VIP - Your Future Starts Here",
-    description: "Join the exclusive FUTURE 11 event on January 10, 2026. Create your unique I-ID and experience the future of digital identity.",
+    description: "Secure your seat for the FUTURE 11 app launch on January 10, 2026. Create your unique I-ID with multiple avatar representations.",
     url: "https://ipnotec.vip",
     siteName: "IPNOTEC.VIP",
     type: "website",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "IPNOTEC.VIP - Your Future Starts Here",
-    description: "Join the exclusive FUTURE 11 event. Create your unique I-ID.",
+    description: "Secure your seat for the FUTURE 11 app launch. Create your unique I-ID with multiple avatars.",
   },
   robots: {
     index: true,

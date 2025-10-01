@@ -1,0 +1,378 @@
+[
+  {
+    "id": "TC001",
+    "title": "Verify Landing Page Loads Successfully",
+    "description": "Ensure the IPNOTEC.VIP landing page loads fully within 2 seconds with all hero section animations playing smoothly at 60fps.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the IPNOTEC.VIP landing page URL."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page loads completely in under 2 seconds on standard internet connection."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify hero section animations and parallax effects run smoothly at 60fps without glitches."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify floating glassmorphic navigation bar is visible and sticky on scroll."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Validate I-ID Creation Multi-step Form",
+    "description": "Check that the I-ID creation form validates user inputs correctly with real-time availability check under 500ms and prevents submission on invalid data.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the I-ID creation form via primary CTA on the landing page."
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid unique I-ID and observe real-time availability feedback."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that availability check completes within 500ms and shows correct availability status."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to enter invalid I-ID formats and ensure error messages display instantly."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user cannot proceed to next step if I-ID input is invalid or unavailable."
+      },
+      {
+        "type": "action",
+        "description": "Complete all steps of multi-step I-ID creation form with valid inputs."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the form allows submission and progresses correctly to registration steps."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Registration Form Validation with Progress Tracking",
+    "description": "Test the multi-step user registration form for proper input validation, progress indicators, and error handling for personal details.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Fill in each step of the registration form with valid personal details."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that progress indicators update accurately as user completes each step."
+      },
+      {
+        "type": "action",
+        "description": "Input invalid data formats such as incorrect email, missing required fields, or improper phone numbers."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that descriptive error messages appear instantaneously powered by React Hook Form and Zod for each invalid field."
+      },
+      {
+        "type": "action",
+        "description": "Try to submit the form with incomplete or invalid data."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that submission is blocked and relevant error messages are shown."
+      },
+      {
+        "type": "action",
+        "description": "Complete valid form data and submit."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify successful form submission and navigation to the avatar customization step."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Avatar Customization Flow and Live Preview",
+    "description": "Verify the six-step avatar customization engine functions correctly with interactive selection and real-time live preview updates.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to the avatar customization section after registration."
+      },
+      {
+        "type": "action",
+        "description": "Complete each of the six customization steps selecting avatar features."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the live preview updates instantly to reflect each user selection."
+      },
+      {
+        "type": "action",
+        "description": "Test edge cases such as rapid option changes, skipping optional steps (if any), and invalid input if applicable."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm no errors occur and selections remain consistent when navigating back and forth."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Payment Processing via Razorpay",
+    "description": "Test secure payment gateway integration that supports multiple payment methods and displays confirmation with receipt generation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Proceed to the payment page after completing registration and avatar customization."
+      },
+      {
+        "type": "action",
+        "description": "Initiate payment through Razorpay modal selecting various supported methods (credit card, UPI, wallets)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment modal loads correctly and securely."
+      },
+      {
+        "type": "action",
+        "description": "Complete a successful transaction using each payment method."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm payment processing is secure, receipt is generated, and confirmation is shown."
+      },
+      {
+        "type": "action",
+        "description": "Simulate payment failure scenarios (declined cards, network error)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify appropriate error messages display and user can retry payment."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "User Dashboard Functionality Verification",
+    "description": "Ensure the post-payment dashboard displays I-ID, avatar gallery, payment history, and profile editing with accurate data and updates.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login or access the dashboard post payment completion."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify I-ID is correctly displayed and matches the user created."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify avatar gallery shows all customized avatars with accurate visuals."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment history lists all completed transactions with correct status and details."
+      },
+      {
+        "type": "action",
+        "description": "Edit profile information and save changes."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm profile updates persist and reflect correctly in UI."
+      },
+      {
+        "type": "action",
+        "description": "Attempt invalid profile updates and verify validation errors."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Responsive Design and Mobile Optimization",
+    "description": "Verify landing page and registration flows render correctly on various devices including desktops, tablets, and smartphones with functional mobile menu.",
+    "category": "ui",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access the landing page on desktop, tablet, and mobile devices."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify glassmorphic navigation bar adapts correctly and mobile menu toggles and navigates sections smoothly."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify responsiveness of hero section, forms, avatar builder, countdown timer, and final CTA across screen sizes."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no layout breakage, text truncation, or overflow issues."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Accessibility Compliance Check",
+    "description": "Ensure the application meets WCAG 2.1 AA standards including keyboard navigation, screen reader support, and sufficient color contrast.",
+    "category": "ui",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate the landing page and all forms using keyboard only."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all interactive elements are focusable and usable via keyboard."
+      },
+      {
+        "type": "action",
+        "description": "Use a screen reader to navigate key sections and forms."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all UI elements provide appropriate ARIA labels and descriptive text is read correctly."
+      },
+      {
+        "type": "assertion",
+        "description": "Check color contrast ratios for text and UI components meet WCAG 2.1 AA standards."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Latency and Performance Under Slow Network Conditions",
+    "description": "Test application behavior under slow or fluctuating network conditions ensuring the user flow is resilient and users receive appropriate feedback.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Simulate slow network latency and load the landing page and forms."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page and animations load with graceful degradation and do not block primary flows."
+      },
+      {
+        "type": "action",
+        "description": "During I-ID availability check, simulate slow backend response."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify availability feedback eventually appears and user is informed appropriately if delays occur."
+      },
+      {
+        "type": "action",
+        "description": "Simulate slow payment gateway response."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user is shown a loading indicator and can retry if payment times out."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Security and Session Management Validation",
+    "description": "Validate input sanitization, secure session handling, and PCI DSS compliance elements for safe user data and payment processing.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt cross-site scripting (XSS) attacks in all form fields."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify input sanitization blocks or escapes malicious scripts."
+      },
+      {
+        "type": "action",
+        "description": "Test session timeout by remaining idle after login/dashboard access."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm user is logged out automatically and redirected to login/landing page after timeout."
+      },
+      {
+        "type": "action",
+        "description": "Inspect payment integration for PCI DSS compliance features."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no sensitive payment data is exposed client-side and secure transmission protocols are enforced."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Cross-Browser and Device Compatibility",
+    "description": "Ensure the platform functions correctly and UI is consistent across supported browsers including Chrome, Firefox, Safari, Edge, and various devices.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the landing page on Chrome, Firefox, Safari, Edge browsers on desktop and mobile."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all visual components, animations, forms, and navigation work correctly without layout or functional issues."
+      },
+      {
+        "type": "action",
+        "description": "Perform primary user flows including I-ID creation, registration, avatar customization, payment, and dashboard access on each browser."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm consistent behavior and absence of browser-specific bugs."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Session Timeout and User Activity Handling",
+    "description": "Test secondary flows to ensure idle session detection, auto-logout, and user data protection during inactivity.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in and remain inactive for session timeout duration."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user is automatically logged out and session data cleared."
+      },
+      {
+        "type": "action",
+        "description": "Attempt form continuation or dashboard access after session expiry."
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm user is redirected to login or landing page and warned about session expiration."
+      }
+    ]
+  }
+]

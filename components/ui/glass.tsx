@@ -20,8 +20,8 @@ export function GlassCard({ children, className, hover = true, onClick }: GlassC
                 className
             )}
             onClick={onClick}
-            whileHover={hover ? { scale: 1.02, y: -2 } : undefined}
-            whileTap={hover ? { scale: 0.98 } : undefined}
+            whileHover={undefined}
+            whileTap={undefined}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
             {children}
@@ -72,8 +72,8 @@ export function GlassButton({
             )}
             onClick={onClick}
             disabled={disabled}
-            whileHover={!disabled ? { scale: 1.05, y: -1 } : undefined}
-            whileTap={!disabled ? { scale: 0.95 } : undefined}
+            whileHover={undefined}
+            whileTap={undefined}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
         >
             {children}
@@ -107,11 +107,7 @@ export function GlassInput({
                     {label}
                 </label>
             )}
-            <motion.div
-                className="relative"
-                whileFocus={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300 }}
-            >
+            <div className="relative">
                 <input
                     type={type}
                     placeholder={placeholder}
@@ -125,7 +121,7 @@ export function GlassInput({
                         error && 'border-red-400 focus:border-red-400 focus:ring-red-400/20'
                     )}
                 />
-            </motion.div>
+            </div>
             {error && (
                 <motion.p
                     initial={{ opacity: 0, y: -10 }}
@@ -147,14 +143,14 @@ interface NeonTextProps {
 
 export function NeonText({ children, color = 'green', className }: NeonTextProps) {
     const colors = {
-        green: 'text-green-400',
-        blue: 'text-blue-400',
-        purple: 'text-purple-400',
-        pink: 'text-pink-400'
+        green: 'text-green-300',
+        blue: 'text-blue-300',
+        purple: 'text-purple-300',
+        pink: 'text-pink-300'
     }
 
     return (
-        <span className={cn('neon-text', colors[color], className)}>
+        <span className={cn('neon-text', colors[color], className)} style={{ textShadow: '0 0 15px currentColor, 0 0 30px currentColor' }}>
             {children}
         </span>
     )

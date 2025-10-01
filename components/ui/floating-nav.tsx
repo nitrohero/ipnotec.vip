@@ -20,8 +20,7 @@ export function FloatingNav() {
 
     const navItems = [
         { label: 'Home', href: '#home', icon: Zap },
-        { label: 'About', href: '#about', icon: Info },
-        { label: 'Features', href: '#about', icon: Info },
+        { label: 'Features', href: '#features', icon: Info },
         { label: 'I-ID', href: '#iid', icon: User }
     ]
 
@@ -39,12 +38,12 @@ export function FloatingNav() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? 'scale-95 top-4' : 'scale-100 top-6'
+                className={`fixed top-6 left-1/2 -translate-x-1/2 z-[9999] transition-all duration-300 ${isScrolled ? 'scale-95 top-4' : 'scale-100 top-6'
                     }`}
             >
-                <div className="glass px-6 py-3 rounded-2xl border-white/20">
+                <div className="bg-black/90 backdrop-blur-xl border border-white/20 px-6 py-4 rounded-2xl shadow-2xl">
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
+                    <div className="hidden md:flex items-center justify-between gap-8">
                         {/* Logo */}
                         <div className="flex items-center space-x-2">
                             <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
@@ -54,7 +53,7 @@ export function FloatingNav() {
                         </div>
 
                         {/* Nav Items */}
-                        <div className="flex items-center space-x-6">
+                        <div className="flex items-center space-x-8">
                             {navItems.map((item) => (
                                 <button
                                     key={item.label}
@@ -67,7 +66,15 @@ export function FloatingNav() {
                         </div>
 
                         {/* CTA Button */}
-                        <GlassButton size="sm">
+                        <GlassButton
+                            size="sm"
+                            onClick={() => {
+                                const element = document.querySelector('#iid')
+                                if (element) {
+                                    element.scrollIntoView({ behavior: 'smooth' })
+                                }
+                            }}
+                        >
                             Get Started
                         </GlassButton>
                     </div>
@@ -99,7 +106,7 @@ export function FloatingNav() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed top-24 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-sm"
+                        className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[9998] w-[calc(100%-2rem)] max-w-sm"
                     >
                         <div className="glass p-6 rounded-2xl border-white/20">
                             <div className="space-y-4">
@@ -138,7 +145,7 @@ export function FloatingNav() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden"
+                        className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9997] md:hidden"
                         onClick={() => setIsMobileMenuOpen(false)}
                     />
                 )}

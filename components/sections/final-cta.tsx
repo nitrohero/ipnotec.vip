@@ -31,7 +31,7 @@ export function FinalCTASection() {
                     >
                         <AlertTriangle className="w-5 h-5 text-red-400 animate-pulse" />
                         <span className="text-sm font-medium text-red-400">
-                            Limited Time • Only 11 Spots Available
+                            Limited Time • Only 1,001 Seats Available
                         </span>
                     </motion.div>
 
@@ -56,8 +56,8 @@ export function FinalCTASection() {
                         viewport={{ once: true }}
                         className="text-xl text-white/70 mb-12 max-w-3xl mx-auto leading-relaxed"
                     >
-                        Join the exclusive FUTURE 11 event and secure your digital identity before it's too late.
-                        This opportunity won't come again.
+                        Secure your seat for the FUTURE 11 app launch and get access to create your digital identity with multiple avatar representations.
+                        This opportunity is limited to 1,001 seats only.
                     </motion.p>
 
                     {/* Scarcity Indicators */}
@@ -79,8 +79,8 @@ export function FinalCTASection() {
                         <div className="flex items-center justify-center space-x-3 p-4 rounded-xl bg-white/5 border border-white/10">
                             <Users className="w-6 h-6 text-red-400" />
                             <div>
-                                <div className="font-heading font-bold text-red-400">Only 11 Spots</div>
-                                <div className="text-sm text-white/60">Extremely exclusive</div>
+                                <div className="font-heading font-bold text-red-400">1,001 Seats Only</div>
+                                <div className="text-sm text-white/60">893 seats remaining</div>
                             </div>
                         </div>
 
@@ -105,6 +105,12 @@ export function FinalCTASection() {
                             <GlassButton
                                 size="lg"
                                 className="text-lg px-12 py-4 group shadow-2xl"
+                                onClick={() => {
+                                    const element = document.querySelector('#iid')
+                                    if (element) {
+                                        element.scrollIntoView({ behavior: 'smooth' })
+                                    }
+                                }}
                             >
                                 <span className="flex items-center space-x-3">
                                     <span className="font-heading">Secure My Spot for ₹1,001</span>
