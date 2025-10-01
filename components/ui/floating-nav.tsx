@@ -42,24 +42,16 @@ export function FloatingNav() {
                 className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${isScrolled ? 'scale-95 top-4' : 'scale-100 top-6'
                     }`}
             >
-                <div className="glass px-6 py-3 rounded-2xl border-white/20">
+                <div className="glass px-8 py-4 rounded-2xl border-white/20">
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
-                        {/* Logo */}
-                        <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-                                <Zap className="w-4 h-4 text-black" />
-                            </div>
-                            <span className="font-bold text-white font-heading">IPNOTEC.VIP</span>
-                        </div>
-
+                    <div className="hidden md:flex items-center justify-center space-x-12">
                         {/* Nav Items */}
-                        <div className="flex items-center space-x-6">
+                        <div className="flex items-center space-x-8">
                             {navItems.map((item) => (
                                 <button
                                     key={item.label}
                                     onClick={() => handleNavClick(item.href)}
-                                    className="text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium font-body"
+                                    className="text-white/80 hover:text-white transition-colors duration-200 text-sm font-medium font-body px-3 py-2 rounded-lg hover:bg-white/5"
                                 >
                                     {item.label}
                                 </button>
@@ -78,12 +70,12 @@ export function FloatingNav() {
                             <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
                                 <Zap className="w-4 h-4 text-black" />
                             </div>
-                            <span className="font-bold text-white font-heading">IPNOTEC</span>
+                            <span className="font-bold text-white font-heading text-sm">IPNOTEC.VIP</span>
                         </div>
 
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="text-white p-2"
+                            className="text-white p-2 hover:bg-white/10 rounded-lg transition-colors duration-200"
                         >
                             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
@@ -99,10 +91,10 @@ export function FloatingNav() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed top-24 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-sm"
+                        className="fixed top-28 left-1/2 transform -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-xs"
                     >
                         <div className="glass p-6 rounded-2xl border-white/20">
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 {navItems.map((item, index) => {
                                     const Icon = item.icon
                                     return (
@@ -114,14 +106,14 @@ export function FloatingNav() {
                                             onClick={() => handleNavClick(item.href)}
                                             className="w-full flex items-center space-x-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors duration-200"
                                         >
-                                            <Icon className="w-5 h-5 text-white/70" />
-                                            <span className="text-white font-medium font-body">{item.label}</span>
+                                            <Icon className="w-4 h-4 text-white/70" />
+                                            <span className="text-white font-medium font-body text-sm">{item.label}</span>
                                         </motion.button>
                                     )
                                 })}
 
-                                <div className="pt-4 border-t border-white/10">
-                                    <GlassButton size="sm" className="w-full">
+                                <div className="pt-3 border-t border-white/10">
+                                    <GlassButton size="sm" className="w-full text-sm">
                                         Get Started
                                     </GlassButton>
                                 </div>
